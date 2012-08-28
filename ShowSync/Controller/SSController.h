@@ -24,5 +24,6 @@
 
 - (void)registerTag:(NSString *)tag;
 - (void)unregister;
+- (void)viewClosed;
 
 @end

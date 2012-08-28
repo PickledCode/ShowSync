@@ -7,9 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "SSController.h"
 
-@interface SSAppDelegate : NSObject <NSApplicationDelegate>
+@interface SSAppDelegate : NSObject <NSApplicationDelegate> {
+    NSMutableArray * controllers;
+}
 
-@property (assign) IBOutlet NSWindow * window;
+- (void)removeController:(SSController *)controller;
+- (IBAction)newWindow:(id)sender;
 
 @end

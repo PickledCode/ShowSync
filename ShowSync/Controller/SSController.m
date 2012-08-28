@@ -36,6 +36,13 @@
     [session unregisterTag];
 }
 
+- (void)viewClosed {
+    if ([session isSocketOpen]) {
+        [session closeSocket];
+        session = nil;
+    }
+}
+
 #pragma mark - KBProxy Delegate -
 
 - (void)kbpSessionTagOwned:(KBPSession *)session {

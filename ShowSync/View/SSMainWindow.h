@@ -7,8 +7,17 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "SSConnectView.h"
 
-@interface SSMainWindow : NSWindow
+@class SSController;
+
+@interface SSMainWindow : NSWindow {
+    __weak SSController * controller;
+    
+    SSConnectView * connectView;
+}
+
+@property (nonatomic, weak) SSController * controller;
 
 - (void)handleConnectError:(NSString *)error;
 - (void)handleConnecting;
