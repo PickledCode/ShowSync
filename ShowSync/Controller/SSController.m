@@ -7,6 +7,7 @@
 //
 
 #import "SSController.h"
+#import "SSAppDelegate.h"
 
 @implementation SSController
 
@@ -17,6 +18,10 @@
         window = aWindow;
     }
     return self;
+}
+
+- (BOOL)isRegistered {
+    return ([session tag] != nil);
 }
 
 - (void)registerTag:(NSString *)tag {
@@ -40,7 +45,9 @@
     if ([session isSocketOpen]) {
         [session closeSocket];
         session = nil;
+        window = nil;
     }
+    [((SSAppDelegate *)[NSApplication sharedApplication].delegate) removeController:self];
 }
 
 #pragma mark - KBProxy Delegate -
@@ -65,10 +72,6 @@
 - (void)kbpSession:(KBPSession *)session remoteError:(NSDictionary *)error {
     // TODO: handle error here
     NSLog(@"got remote error: %@", error);
-}
-
-- (void)kbpSession:(KBPSession *)session received:(NSObject *)object {
-    
 }
 
 @end

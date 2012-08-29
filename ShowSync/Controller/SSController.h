@@ -22,6 +22,7 @@
 
 - (id)initWithWindow:(SSMainWindow *)aWindow;
 
+- (BOOL)isRegistered;
 - (void)registerTag:(NSString *)tag;
 - (void)unregister;
 - (void)viewClosed;

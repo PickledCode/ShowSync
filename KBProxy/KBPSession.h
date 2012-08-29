@@ -48,6 +48,8 @@
     BOOL isOwner;
 }
 
+@property (readonly) NSData * tag;
+
 - (id)initWithHost:(NSString *)aHost port:(UInt16)aPort delegate:(id<KBPSessionDelegate>)theDelegate;
 
 - (BOOL)registerTag:(NSData *)tag;

@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "SSConnectView.h"
+#import "SSMainView.h"
 
 @class SSController;
 
@@ -15,6 +16,11 @@
     __weak SSController * controller;
     
     SSConnectView * connectView;
+    SSMainView * mainView;
+    NSProgressIndicator * progressIndicator;
+    NSTextField * statusField;
+    
+    BOOL animating;
 }
 
 @property (nonatomic, weak) SSController * controller;
@@ -24,5 +30,12 @@
 - (void)handleConnected;
 - (void)handleDisconnected;
 - (void)handleObject:(NSObject *)object;
+
+- (void)connectPressed:(id)sender;
+- (void)showConnectView;
+- (void)showMainView;
+
+- (void)startLoading;
+- (void)stopLoading;
 
 @end

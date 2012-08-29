@@ -16,12 +16,13 @@
 }
 
 - (void)removeController:(SSController *)controller {
-    
+    [controllers removeObject:controller];
 }
 
 - (IBAction)newWindow:(id)sender {
     SSMainWindow * window = [[SSMainWindow alloc] init];
     SSController * controller = [[SSController alloc] initWithWindow:window];
+    window.controller = controller;
     [controllers addObject:controller];
     [window makeKeyAndOrderFront:self];
 }

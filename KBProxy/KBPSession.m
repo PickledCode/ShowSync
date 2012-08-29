@@ -22,6 +22,8 @@
 
 @implementation KBPSession
 
+@synthesize tag;
+
 - (id)initWithHost:(NSString *)aHost port:(UInt16)aPort delegate:(id<KBPSessionDelegate>)theDelegate {
     if ((self = [super init])) {
         host = aHost;
