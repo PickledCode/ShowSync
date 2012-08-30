@@ -29,6 +29,7 @@
 		FA3DF58115EA9A0E003A5271 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA3DF57F15EA9A0E003A5271 /* MainMenu.xib */; };
 		FA6BE5F915EF0950008C4F1D /* SSInterfaceStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = FA6BE5F815EF0950008C4F1D /* SSInterfaceStatus.m */; };
 		FAA5DC9E15EEE8FC002CC804 /* SSSyncController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA5DC9D15EEE8FC002CC804 /* SSSyncController.m */; };
+		FAB6775615F02A7700C80B7B /* SSPlexInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB6775515F02A7700C80B7B /* SSPlexInterface.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +81,8 @@
 		FA6BE5F815EF0950008C4F1D /* SSInterfaceStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSInterfaceStatus.m; sourceTree = "<group>"; };
 		FAA5DC9C15EEE8FC002CC804 /* SSSyncController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSSyncController.h; sourceTree = "<group>"; };
 		FAA5DC9D15EEE8FC002CC804 /* SSSyncController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSSyncController.m; sourceTree = "<group>"; };
+		FAB6775415F02A7700C80B7B /* SSPlexInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPlexInterface.h; sourceTree = "<group>"; };
+		FAB6775515F02A7700C80B7B /* SSPlexInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSPlexInterface.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,13 +153,14 @@
 		FA10C56415ED5E750053EED1 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
-				FA10C57615ED65920053EED1 /* SSInterface.h */,
+				FAB6775215F02A6100C80B7B /* Plex */,
 				FA10C56C15ED62C80053EED1 /* VLC */,
 				FA10C56D15ED62C80053EED1 /* QuickTime */,
 				FA10C57A15ED67430053EED1 /* SSInterfaceFactory.h */,
 				FA10C57B15ED67430053EED1 /* SSInterfaceFactory.m */,
 				FA6BE5F715EF0950008C4F1D /* SSInterfaceStatus.h */,
 				FA6BE5F815EF0950008C4F1D /* SSInterfaceStatus.m */,
+				FA10C57615ED65920053EED1 /* SSInterface.h */,
 			);
 			path = Interfaces;
 			sourceTree = "<group>";
@@ -245,6 +249,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		FAB6775215F02A6100C80B7B /* Plex */ = {
+			isa = PBXGroup;
+			children = (
+				FAB6775415F02A7700C80B7B /* SSPlexInterface.h */,
+				FAB6775515F02A7700C80B7B /* SSPlexInterface.m */,
+			);
+			path = Plex;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -327,6 +340,7 @@
 				FA10C58515ED8E780053EED1 /* SSMainView.m in Sources */,
 				FAA5DC9E15EEE8FC002CC804 /* SSSyncController.m in Sources */,
 				FA6BE5F915EF0950008C4F1D /* SSInterfaceStatus.m in Sources */,
+				FAB6775615F02A7700C80B7B /* SSPlexInterface.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

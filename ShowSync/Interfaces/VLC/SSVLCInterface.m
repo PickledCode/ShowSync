@@ -47,4 +47,8 @@
     [doc play];
 }
 
+- (void)invalidate {
+    application = nil;
+}
+
 @end

@@ -52,4 +52,8 @@
     }
 }
 
+- (void)invalidate {
+    application = nil;
+}
+
 @end

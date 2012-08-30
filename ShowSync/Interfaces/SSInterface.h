@@ -17,4 +17,6 @@
 - (BOOL)isPlaying;
 - (void)setPlaying:(BOOL)playing;
 
+- (void)invalidate;
+
 @end
