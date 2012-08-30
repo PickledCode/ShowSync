@@ -57,6 +57,8 @@
         
         mainView.takeTimeButton.target = self;
         mainView.takeTimeButton.action = @selector(takeRemoteOffsetPressed:);
+        
+        [self setDefaultButtonCell:connectView.connectButton.cell];
     }
     return self;
 }
@@ -112,6 +114,7 @@
     frame.origin.y -= (SSConnectViewHeight - SSMainViewHeight);
     [self setFrame:frame display:YES animate:YES];
     [self.contentView addSubview:connectView];
+    [self setDefaultButtonCell:connectView.connectButton.cell];
 }
 
 - (void)showMainView {
@@ -122,6 +125,7 @@
     frame.origin.y -= (SSMainViewHeight - SSConnectViewHeight);
     [self setFrame:frame display:YES animate:YES];
     [self.contentView addSubview:mainView];
+    [self setDefaultButtonCell:nil];
 }
 
 - (void)startLoading {
