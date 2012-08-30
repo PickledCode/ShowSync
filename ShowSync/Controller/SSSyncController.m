@@ -55,7 +55,8 @@
         if (waitingForCatchup) [self playIfCaughtUp];
         
         if ([controller.window shouldSyncPauses] && playPauseChanged) {
-            if ([interface isPlaying] != [remoteStatus playing]) {
+            BOOL remoteWaiting = [[object objectForKey:@"waiting"] boolValue];
+            if ([interface isPlaying] != [remoteStatus playing] && !remoteWaiting && !waitingForCatchup) {
                 [interface setPlaying:remoteStatus.playing];
                 [self sendTimestampAndPausedInfo:nil]; // make the refresh look instant
             }
@@ -68,7 +69,9 @@
     // TODO: only send updates when the status differs from previous local status
     
     NSDictionary * dict = [status dictionaryRepresentation];
-    NSDictionary * object = @{@"type": @"status", @"status": dict};
+    NSDictionary * object = @{@"type": @"status",
+                              @"status": dict,
+                              @"waiting": [NSNumber numberWithBool:waitingForCatchup]};
     [controller.session sendRemoteObject:object];
     [controller.window handleLocalStatus:status];
     
