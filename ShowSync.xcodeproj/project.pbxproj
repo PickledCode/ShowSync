@@ -27,6 +27,8 @@
 		FA3DF57B15EA9A0E003A5271 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = FA3DF57915EA9A0E003A5271 /* Credits.rtf */; };
 		FA3DF57E15EA9A0E003A5271 /* SSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3DF57D15EA9A0E003A5271 /* SSAppDelegate.m */; };
 		FA3DF58115EA9A0E003A5271 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA3DF57F15EA9A0E003A5271 /* MainMenu.xib */; };
+		FA6BE5F915EF0950008C4F1D /* SSInterfaceStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = FA6BE5F815EF0950008C4F1D /* SSInterfaceStatus.m */; };
+		FAA5DC9E15EEE8FC002CC804 /* SSSyncController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA5DC9D15EEE8FC002CC804 /* SSSyncController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +76,10 @@
 		FA3DF57C15EA9A0E003A5271 /* SSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSAppDelegate.h; sourceTree = "<group>"; };
 		FA3DF57D15EA9A0E003A5271 /* SSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSAppDelegate.m; sourceTree = "<group>"; };
 		FA3DF58015EA9A0E003A5271 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		FA6BE5F715EF0950008C4F1D /* SSInterfaceStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSInterfaceStatus.h; sourceTree = "<group>"; };
+		FA6BE5F815EF0950008C4F1D /* SSInterfaceStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSInterfaceStatus.m; sourceTree = "<group>"; };
+		FAA5DC9C15EEE8FC002CC804 /* SSSyncController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSSyncController.h; sourceTree = "<group>"; };
+		FAA5DC9D15EEE8FC002CC804 /* SSSyncController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSSyncController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +128,8 @@
 			children = (
 				FA10C55E15ED56960053EED1 /* SSController.h */,
 				FA10C55F15ED56960053EED1 /* SSController.m */,
+				FAA5DC9C15EEE8FC002CC804 /* SSSyncController.h */,
+				FAA5DC9D15EEE8FC002CC804 /* SSSyncController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -147,6 +155,8 @@
 				FA10C56D15ED62C80053EED1 /* QuickTime */,
 				FA10C57A15ED67430053EED1 /* SSInterfaceFactory.h */,
 				FA10C57B15ED67430053EED1 /* SSInterfaceFactory.m */,
+				FA6BE5F715EF0950008C4F1D /* SSInterfaceStatus.h */,
+				FA6BE5F815EF0950008C4F1D /* SSInterfaceStatus.m */,
 			);
 			path = Interfaces;
 			sourceTree = "<group>";
@@ -315,6 +325,8 @@
 				FA10C57C15ED67430053EED1 /* SSInterfaceFactory.m in Sources */,
 				FA10C58215ED68140053EED1 /* SSConnectView.m in Sources */,
 				FA10C58515ED8E780053EED1 /* SSMainView.m in Sources */,
+				FAA5DC9E15EEE8FC002CC804 /* SSSyncController.m in Sources */,
+				FA6BE5F915EF0950008C4F1D /* SSInterfaceStatus.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

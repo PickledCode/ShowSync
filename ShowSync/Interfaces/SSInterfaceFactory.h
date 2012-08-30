@@ -17,6 +17,7 @@ typedef enum SSInterfaceType {
 
 @interface SSInterfaceFactory : NSObject
 
++ (SSInterfaceType)interfaceTypeForString:(NSString *)typeString;
 + (id<SSInterface>)interfaceWithType:(SSInterfaceType)type;
 
 @end

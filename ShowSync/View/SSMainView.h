@@ -8,8 +8,22 @@
 
 #import <Cocoa/Cocoa.h>
 
-#define SSMainViewHeight 150
+#define SSMainViewHeight 148
 
-@interface SSMainView : NSView
+@interface SSMainView : NSView {
+    NSTextField * currentTimeField;
+    NSTextField * remoteTimeField;
+    NSTextField * pausedField;
+    NSTextField * remotePausedField;
+    NSButton * takeTimeButton;
+    NSButton * pauseAndWaitButton;
+}
+
+@property (readonly) NSTextField * currentTimeField;
+@property (readonly) NSTextField * remoteTimeField;
+@property (readonly) NSTextField * pausedField;
+@property (readonly) NSTextField * remotePausedField;
+@property (readonly) NSButton * takeTimeButton;
+@property (readonly) NSButton * pauseAndWaitButton;
 
 @end

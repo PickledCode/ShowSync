@@ -12,6 +12,7 @@
 @interface SSMainWindow (Private)
 
 + (NSRect)centerFrameOnScreen:(NSRect)frame;
++ (NSString *)stringForTimestamp:(NSTimeInterval)timestamp;
 
 @end
 
@@ -119,6 +120,10 @@
 
 #pragma mark - Controller -
 
+- (NSString *)applicationName {
+    return connectView.playerPopUp.selectedItem.title;
+}
+
 - (void)handleConnectError:(NSString *)error {
     [statusField setHidden:NO];
     statusField.stringValue = error;
@@ -147,11 +152,34 @@
     
     statusField.stringValue = @"Disconnected.";
     [statusField setHidden:NO];
-    
 }
 
-- (void)handleObject:(NSObject *)object {
-    NSLog(@"got object: %@", object);
+#pragma mark - Sync Status -
+
+- (void)handleRemoteStatus:(SSInterfaceStatus *)status {
+    if (!status.available) {
+        mainView.remotePausedField.stringValue = @"Remote's player is unavailable";
+    } else {
+        if (status.playing) {
+            mainView.remotePausedField.stringValue = @"Remote is playing";
+        } else {
+            mainView.remotePausedField.stringValue = @"Remote is paused";
+        }
+        mainView.remoteTimeField.stringValue = [SSMainWindow stringForTimestamp:status.offset];
+    }
+}
+
+- (void)handleLocalStatus:(SSInterfaceStatus *)status {
+    if (!status.available) {
+        mainView.pausedField.stringValue = @"Your player is unavailable";
+    } else {
+        if (status.playing) {
+            mainView.pausedField.stringValue = @"You are playing";
+        } else {
+            mainView.pausedField.stringValue = @"You are paused";
+        }
+        mainView.currentTimeField.stringValue = [SSMainWindow stringForTimestamp:status.offset];
+    }
 }
 
 #pragma mark - Private -
@@ -163,6 +191,13 @@
     newFrame.origin.x = round((screenFrame.size.width - frame.size.width) / 2);
     newFrame.origin.y = round((screenFrame.size.height - frame.size.height) / 2);
     return newFrame;
+}
+
++ (NSString *)stringForTimestamp:(NSTimeInterval)timestamp {
+    int seconds = (int)timestamp % 60;
+    int minutes = ((int)timestamp / 60) % 60;
+    int hours = (int)timestamp / 60 / 60;
+    return [NSString stringWithFormat:@"%d:%02d:%02d", hours, minutes, seconds];
 }
 
 @end

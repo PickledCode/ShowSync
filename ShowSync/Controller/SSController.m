@@ -12,6 +12,8 @@
 @implementation SSController
 
 @synthesize window;
+@synthesize syncController;
+@synthesize session;
 
 - (id)initWithWindow:(SSMainWindow *)aWindow {
     if ((self = [super init])) {
@@ -54,14 +56,19 @@
 
 - (void)kbpSessionTagOwned:(KBPSession *)session {
     [window handleConnecting];
+    [syncController invalidate];
+    syncController = nil;
 }
 
 - (void)kbpSessionSocketClosed:(KBPSession *)aSession {
+    [syncController invalidate];
+    syncController = nil;
     [window handleDisconnected];
     session = nil;
 }
 
 - (void)kbpSessionConnected:(KBPSession *)session {
+    syncController = [[SSSyncController alloc] initWithController:self];
     [window handleConnected];
 }
 
@@ -72,6 +79,12 @@
 - (void)kbpSession:(KBPSession *)session remoteError:(NSDictionary *)error {
     // TODO: handle error here
     NSLog(@"got remote error: %@", error);
+}
+
+- (void)kbpSession:(KBPSession *)session received:(NSObject *)object {
+    if ([object isKindOfClass:[NSDictionary class]]) {
+        [syncController handleObject:(NSDictionary *)object];
+    }
 }
 
 @end

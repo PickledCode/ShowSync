@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "SSConnectView.h"
 #import "SSMainView.h"
+#import "SSInterfaceStatus.h"
 
 @class SSController;
 
@@ -25,11 +26,15 @@
 
 @property (nonatomic, weak) SSController * controller;
 
+- (NSString *)applicationName;
+
 - (void)handleConnectError:(NSString *)error;
 - (void)handleConnecting;
 - (void)handleConnected;
 - (void)handleDisconnected;
-- (void)handleObject:(NSObject *)object;
+
+- (void)handleRemoteStatus:(SSInterfaceStatus *)status;
+- (void)handleLocalStatus:(SSInterfaceStatus *)status;
 
 - (void)connectPressed:(id)sender;
 - (void)showConnectView;
