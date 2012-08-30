@@ -86,7 +86,7 @@
     if (waitingForCatchup) return;
     
     waitingForCatchup = YES;
-    if (![interface isPlaying]) [interface setPlaying:NO];
+    if ([interface isPlaying]) [interface setPlaying:NO];
 }
 
 - (void)cancelWaitForCatchup {
