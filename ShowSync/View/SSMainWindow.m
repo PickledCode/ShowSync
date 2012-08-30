@@ -206,6 +206,10 @@
     mainView.pauseAndWaitButton.title = @"Pause & Wait";
 }
 
+- (BOOL)shouldSyncPauses {
+    return mainView.syncPausesButton.state == 1;
+}
+
 #pragma mark - Private -
 
 + (NSRect)centerFrameOnScreen:(NSRect)frame {

@@ -16,6 +16,7 @@
 @synthesize remotePausedField;
 @synthesize takeTimeButton;
 @synthesize pauseAndWaitButton;
+@synthesize syncPausesButton;
 
 - (id)initWithFrame:(NSRect)frame {
     if ((self = [super initWithFrame:frame])) {
@@ -87,6 +88,12 @@
         pauseAndWaitButton.font = [NSFont systemFontOfSize:13];
         pauseAndWaitButton.title = @"Pause & Wait";
         [self addSubview:pauseAndWaitButton];
+        
+        syncPausesButton = [[NSButton alloc] initWithFrame:NSMakeRect(10, frame.size.height - 138, 100, 24)];
+        syncPausesButton.state = 1;
+        [syncPausesButton setButtonType:NSSwitchButton];
+        syncPausesButton.title = @"Sync pauses";
+        [self addSubview:syncPausesButton];
     }
     return self;
 }

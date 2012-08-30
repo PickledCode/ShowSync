@@ -17,6 +17,7 @@
     NSTextField * remotePausedField;
     NSButton * takeTimeButton;
     NSButton * pauseAndWaitButton;
+    NSButton * syncPausesButton;
 }
 
 @property (readonly) NSTextField * currentTimeField;
@@ -25,5 +26,6 @@
 @property (readonly) NSTextField * remotePausedField;
 @property (readonly) NSButton * takeTimeButton;
 @property (readonly) NSButton * pauseAndWaitButton;
+@property (readonly) NSButton * syncPausesButton;
 
 @end

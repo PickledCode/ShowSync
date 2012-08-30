@@ -47,4 +47,6 @@
 - (void)startLoading;
 - (void)stopLoading;
 
+- (BOOL)shouldSyncPauses;
+
 @end

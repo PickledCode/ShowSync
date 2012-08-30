@@ -46,6 +46,12 @@
         remoteStatus = status;
         
         if (waitingForCatchup) [self playIfCaughtUp];
+        
+        if ([controller.window shouldSyncPauses]) {
+            if ([interface isPlaying] != [remoteStatus playing]) {
+                [interface setPlaying:remoteStatus.playing];
+            }
+        }
     }
 }
 
