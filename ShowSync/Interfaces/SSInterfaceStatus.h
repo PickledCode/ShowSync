@@ -23,6 +23,8 @@
 - (id)initWithPlaying:(BOOL)playing offset:(NSTimeInterval)offset;
 - (id)initWithInterface:(id<SSInterface>)interface;
 
+- (BOOL)isEqualToStatus:(SSInterfaceStatus*)status;
+
 - (NSDictionary *)dictionaryRepresentation;
 + (SSInterfaceStatus *)interfaceStatusWithDictionaryRepresentation:(NSDictionary *)dictionary;
 

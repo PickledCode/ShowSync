@@ -43,6 +43,13 @@
     return self;
 }
 
+- (BOOL)isEqualToStatus:(SSInterfaceStatus*)status {
+    // Should we round here?
+    return (status.available == self.available &&
+            status.playing == self.playing &&
+            status.offset == self.offset);
+}
+
 #pragma mark - Dictionaries -
 
 - (NSDictionary *)dictionaryRepresentation {

@@ -19,6 +19,8 @@
 
 - (id)initWithController:(SSController *)aController {
     if ((self = [super init])) {
+        sentCount = 0;
+        
         controller = aController;
         
         // create the interface based on user application drop-down
@@ -26,7 +28,7 @@
         SSInterfaceType type = [SSInterfaceFactory interfaceTypeForString:interfaceName];
         interface = [SSInterfaceFactory interfaceWithType:type];
         
-        timer = [NSTimer scheduledTimerWithTimeInterval:1
+        timer = [NSTimer scheduledTimerWithTimeInterval:0.25
                                                  target:self
                                                selector:@selector(sendTimestampAndPausedInfo:)
                                                userInfo:nil
@@ -66,7 +68,13 @@
 
 - (void)sendTimestampAndPausedInfo:(id)sender {
     SSInterfaceStatus * status = [[SSInterfaceStatus alloc] initWithInterface:interface];
-    // TODO: only send updates when the status differs from previous local status
+    sentCount++;
+    
+//    if (sentCount % 4 == 0 && status.playing == myStatus.playing) {
+//        // Because interval is 0.25 we only send pause/play on this time
+//        return;
+//    }
+    if ([status isEqualToStatus:myStatus]) return;
     
     NSDictionary * dict = [status dictionaryRepresentation];
     NSDictionary * object = @{@"type": @"status",
@@ -118,7 +126,7 @@
         return;
     }
     
-    if (remoteStatus.offset > myStatus.offset) {
+    if (remoteStatus.offset >= myStatus.offset) {
         waitingForCatchup = NO;
         if (![interface isPlaying]) {
             [interface setPlaying:YES];

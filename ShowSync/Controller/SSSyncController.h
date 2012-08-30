@@ -13,6 +13,8 @@
 @class SSController;
 
 @interface SSSyncController : NSObject {
+    NSUInteger sentCount;
+    
     __weak SSController * controller;
     BOOL waitingForCatchup;
     
