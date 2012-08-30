@@ -43,13 +43,21 @@
         SSInterfaceStatus * status = [SSInterfaceStatus interfaceStatusWithDictionaryRepresentation:dict];
         [controller.window handleRemoteStatus:status];
         
+        BOOL playPauseChanged = NO;
+        if (remoteStatus && remoteStatus.available && status.available) {
+            if (remoteStatus.playing != status.playing) {
+                playPauseChanged = YES;
+            }
+        }
+        
         remoteStatus = status;
         
         if (waitingForCatchup) [self playIfCaughtUp];
         
-        if ([controller.window shouldSyncPauses]) {
+        if ([controller.window shouldSyncPauses] && playPauseChanged) {
             if ([interface isPlaying] != [remoteStatus playing]) {
                 [interface setPlaying:remoteStatus.playing];
+                [self sendTimestampAndPausedInfo:nil]; // make the refresh look instant
             }
         }
     }

@@ -83,8 +83,8 @@
         }
         [self startLoading];
         [statusField setHidden:YES];
-        [controller registerTag:connectView.tagField.stringValue];
         connectView.connectButton.title = @"Cancel";
+        [controller registerTag:connectView.tagField.stringValue];
     }
 }
 
@@ -148,6 +148,7 @@
     [statusField setHidden:NO];
     statusField.stringValue = error;
     [self stopLoading];
+    connectView.connectButton.title = @"Connect";
 }
 
 - (void)handleConnecting {
@@ -172,6 +173,7 @@
     
     statusField.stringValue = @"Disconnected.";
     [statusField setHidden:NO];
+    connectView.connectButton.title = @"Connect";
 }
 
 #pragma mark - Sync Status -
