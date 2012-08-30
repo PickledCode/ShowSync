@@ -9,6 +9,12 @@
 #import "SSSyncController.h"
 #import "SSController.h"
 
+@interface SSSyncController (Private)
+
+- (void)playIfCaughtUp;
+
+@end
+
 @implementation SSSyncController
 
 - (id)initWithController:(SSController *)aController {
@@ -33,8 +39,13 @@
     if ([[object objectForKey:@"type"] isEqualToString:@"status"]) {
         NSDictionary * dict = [object objectForKey:@"status"];
         if (![dict isKindOfClass:[NSDictionary class]]) return;
+        
         SSInterfaceStatus * status = [SSInterfaceStatus interfaceStatusWithDictionaryRepresentation:dict];
         [controller.window handleRemoteStatus:status];
+        
+        remoteStatus = status;
+        
+        if (waitingForCatchup) [self playIfCaughtUp];
     }
 }
 
@@ -46,11 +57,57 @@
     NSDictionary * object = @{@"type": @"status", @"status": dict};
     [controller.session sendRemoteObject:object];
     [controller.window handleLocalStatus:status];
+    
+    myStatus = status;
 }
 
 - (void)invalidate {
     [timer invalidate];
     timer = nil;
+}
+
+#pragma mark - Sync Methods -
+
+- (void)takeTimeFromClient {
+    if (!remoteStatus) {
+        NSLog(@"Error: cannot take remote timestamp when it isn't available");
+    }
+    if (![interface isAvailable]) return;
+    
+    [interface setOffset:remoteStatus.offset];
+    [self sendTimestampAndPausedInfo:self];
+}
+
+- (BOOL)isWaitingForCatchup {
+    return waitingForCatchup;
+}
+
+- (void)waitForCatchup {
+    if (waitingForCatchup) return;
+    
+    waitingForCatchup = YES;
+    if (![interface isPlaying]) [interface setPlaying:NO];
+}
+
+- (void)cancelWaitForCatchup {
+    waitingForCatchup = NO;
+}
+
+#pragma mark Private
+
+- (void)playIfCaughtUp {
+    if (![interface isAvailable]) {
+        [controller.window handleCaughtUp];
+        return;
+    }
+    
+    if (remoteStatus.offset > myStatus.offset) {
+        waitingForCatchup = NO;
+        if (![interface isPlaying]) {
+            [interface setPlaying:YES];
+        }
+        [controller.window handleCaughtUp];
+    }
 }
 
 @end

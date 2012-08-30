@@ -50,7 +50,13 @@
         [self.contentView addSubview:statusField];
         
         connectView.connectButton.target = self;
-        connectView.connectButton.action = @selector(connectPressed:);        
+        connectView.connectButton.action = @selector(connectPressed:);
+        
+        mainView.pauseAndWaitButton.target = self;
+        mainView.pauseAndWaitButton.action = @selector(waitAndPausePressed:);
+        
+        mainView.takeTimeButton.target = self;
+        mainView.takeTimeButton.action = @selector(takeRemoteOffsetPressed:);
     }
     return self;
 }
@@ -80,6 +86,20 @@
         [controller registerTag:connectView.tagField.stringValue];
         connectView.connectButton.title = @"Cancel";
     }
+}
+
+- (void)waitAndPausePressed:(id)sender {
+    if ([controller.syncController isWaitingForCatchup]) {
+        [controller.syncController cancelWaitForCatchup];
+        mainView.pauseAndWaitButton.title = @"Pause & Wait";
+    } else {
+        [controller.syncController waitForCatchup];
+        mainView.pauseAndWaitButton.title = @"Cancel Wait";
+    }
+}
+
+- (void)takeRemoteOffsetPressed:(id)sender {
+    [controller.syncController takeTimeFromClient];
 }
 
 #pragma mark - Transitions -
@@ -180,6 +200,10 @@
         }
         mainView.currentTimeField.stringValue = [SSMainWindow stringForTimestamp:status.offset];
     }
+}
+
+- (void)handleCaughtUp {
+    mainView.pauseAndWaitButton.title = @"Pause & Wait";
 }
 
 #pragma mark - Private -

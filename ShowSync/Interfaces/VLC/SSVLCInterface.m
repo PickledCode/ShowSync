@@ -19,7 +19,9 @@
 
 - (BOOL)isAvailable {
     if (![application isRunning]) return NO;
-    if ([[application documents] count] == 0) return NO;
+    if ([[application windows] count] == 0) return NO;
+    if (![[[application windows] objectAtIndex:0] document]) return NO;
+    if ([application currentTime] < 0) return NO;
     return YES;
 }
 

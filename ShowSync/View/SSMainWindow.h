@@ -35,10 +35,14 @@
 
 - (void)handleRemoteStatus:(SSInterfaceStatus *)status;
 - (void)handleLocalStatus:(SSInterfaceStatus *)status;
+- (void)handleCaughtUp;
 
 - (void)connectPressed:(id)sender;
 - (void)showConnectView;
 - (void)showMainView;
+
+- (void)waitAndPausePressed:(id)sender;
+- (void)takeRemoteOffsetPressed:(id)sender;
 
 - (void)startLoading;
 - (void)stopLoading;

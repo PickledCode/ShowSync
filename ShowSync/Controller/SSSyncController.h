@@ -18,6 +18,9 @@
     
     NSTimer * timer;
     id<SSInterface> interface;
+    
+    SSInterfaceStatus * myStatus;
+    SSInterfaceStatus * remoteStatus;
 }
 
 - (id)initWithController:(SSController *)aController;
@@ -25,5 +28,11 @@
 
 - (void)sendTimestampAndPausedInfo:(id)sender;
 - (void)invalidate;
+
+- (void)takeTimeFromClient;
+
+- (BOOL)isWaitingForCatchup;
+- (void)waitForCatchup;
+- (void)cancelWaitForCatchup;
 
 @end
