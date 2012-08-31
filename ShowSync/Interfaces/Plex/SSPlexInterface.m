@@ -84,10 +84,16 @@
             [self doPendingSets];
             if ([[NSThread currentThread] isCancelled]) return;
             
-            // TODO: fetch info synchronously here
-            NSTimeInterval offset = 0;
-            BOOL playing = NO;
-            BOOL active = NO;
+            // Get plex info
+            NSDictionary *sendObject = @{@"jsonrpc": @"2.0", @"method": @"videoPlayer.GetTime", @"id": @1};
+            NSDictionary *plexData = [SSHTTPRequest postUrl:@"http://127.0.0.1:3000/jsonrpc?updateDuration" withJsonData:sendObject];
+            NSDictionary *result = [plexData objectForKey:@"result"];
+            
+            // NSTimeInterval total = (NSTimeInterval)[[result objectForKey:@"total"] doubleValue];
+            NSTimeInterval offset = (NSTimeInterval)[[result objectForKey:@"time"] doubleValue];
+            BOOL playing = ![[result objectForKey:@"paused"] booleanValue];
+            BOOL active = [[result objectForKey:@"playing"] booleanValue];
+            
             dispatch_sync(dispatch_get_main_queue(), ^{
                 serverOffset = offset;
                 serverPlaying = playing;

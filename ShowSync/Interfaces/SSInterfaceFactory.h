@@ -9,10 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "SSQuickTimeInterface.h"
 #import "SSVLCInterface.h"
+#import "SSPlexInterface.h"
 
 typedef enum SSInterfaceType {
     SSInterfaceTypeVLC,
-    SSInterfaceTypeQuickTime
+    SSInterfaceTypeQuickTime,
+    SSInterfaceTypePlex
 } SSInterfaceType;
 
 @interface SSInterfaceFactory : NSObject

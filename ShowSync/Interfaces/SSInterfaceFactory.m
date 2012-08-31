@@ -16,9 +16,10 @@
         SSInterfaceType type;
     } types[] = {
         {@"QuickTime", SSInterfaceTypeQuickTime},
-        {@"VLC", SSInterfaceTypeVLC}
+        {@"VLC", SSInterfaceTypeVLC},
+        {@"Plex", SSInterfaceTypePlex}
     };
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 3; i++) {
         if ([types[i].name isEqualToString:typeString]) {
             return types[i].type;
         }
@@ -34,6 +35,9 @@
             break;
         case SSInterfaceTypeVLC:
             c = [SSVLCInterface class];
+            break;
+        case SSInterfaceTypePlex:
+            c = [SSPlexInterface class];
             break;
         default:
             break;

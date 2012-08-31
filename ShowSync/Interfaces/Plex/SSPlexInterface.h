@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SSInterface.h"
+#import "SSHTTPRequest.h"
 
 @interface SSPlexInterface : NSObject <SSInterface> {
     NSThread * bgThread;
