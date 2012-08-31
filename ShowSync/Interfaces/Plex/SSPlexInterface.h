@@ -11,6 +11,8 @@
 #import "SSHTTPRequest.h"
 
 @interface SSPlexInterface : NSObject <SSInterface> {
+    NSString * plexHost;
+    
     NSThread * bgThread;
     NSMutableDictionary * pending;
     

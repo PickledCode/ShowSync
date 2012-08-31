@@ -19,6 +19,7 @@
     NSURLResponse *response = nil;
     NSError *error = nil;
     NSData *responseData = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&error];
+    if (error) return nil;
     return [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
 }
 

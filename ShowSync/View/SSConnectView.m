@@ -45,7 +45,7 @@
         [self addSubview:tagField];
         
         playerPopUp = [[NSPopUpButton alloc] initWithFrame:NSMakeRect(labelWidth + 10, frameRect.size.height - 68, 150, 24)];
-        [playerPopUp addItemsWithTitles:@[@"QuickTime", @"VLC"]];
+        [playerPopUp addItemsWithTitles:@[@"QuickTime", @"VLC", @"Plex"]];
         [self addSubview:playerPopUp];
         
         connectButton = [[NSButton alloc] initWithFrame:NSMakeRect(frameRect.size.width - 95, frameRect.size.height - 68, 90, 24)];
