@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "SSMainWindow.h"
-#import "KBPSession.h"
 #import "SSSyncController.h"
+#import "SSPreferencesController.h"
 
 #define SSDefaultServer @"127.0.0.1"
 #define SSDefaultPort 1337
