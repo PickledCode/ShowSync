@@ -27,4 +27,11 @@
     [window makeKeyAndOrderFront:self];
 }
 
+- (IBAction)preferences:(id)sender {
+    if (!prefsWindow) {
+        prefsWindow = [[SSPreferencesWindow alloc] init];
+    }
+    [prefsWindow makeKeyAndOrderFront:self];
+}
+
 @end

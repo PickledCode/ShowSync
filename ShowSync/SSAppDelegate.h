@@ -8,12 +8,15 @@
 
 #import <Cocoa/Cocoa.h>
 #import "SSController.h"
+#import "SSPreferencesWindow.h"
 
 @interface SSAppDelegate : NSObject <NSApplicationDelegate> {
     NSMutableArray * controllers;
+    SSPreferencesWindow * prefsWindow;
 }
 
 - (void)removeController:(SSController *)controller;
 - (IBAction)newWindow:(id)sender;
+- (IBAction)preferences:(id)sender;
 
 @end

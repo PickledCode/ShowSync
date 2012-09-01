@@ -33,6 +33,8 @@ SS_DYNAMIC_PROP(connectPort, setConnectPort, NSNumber, @"port")
 - (id)init {
     if ((self = [super init])) {
         defaults = [NSUserDefaults standardUserDefaults];
+        if (![self connectHost]) [self setConnectHost:SSDefaultServer];
+        if (![self connectPort]) [self setConnectPort:@SSDefaultPort];
     }
     return self;
 }

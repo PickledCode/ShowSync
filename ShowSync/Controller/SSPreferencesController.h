@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+#define SSDefaultServer @"127.0.0.1"
+#define SSDefaultPort 1337
+
 @interface SSPreferencesController : NSObject {
     NSUserDefaults * defaults;
 }

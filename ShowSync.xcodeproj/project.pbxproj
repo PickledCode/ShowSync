@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		FA0E6A8C15F2D010009C1423 /* SSPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0E6A8B15F2D010009C1423 /* SSPreferencesController.m */; };
 		FA0E6A9115F2D258009C1423 /* SSHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0E6A9015F2D258009C1423 /* SSHTTPRequest.m */; };
+		FA0E6A9415F2D2BE009C1423 /* SSPreferencesWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0E6A9315F2D2BE009C1423 /* SSPreferencesWindow.m */; };
 		FA10C55215ED56190053EED1 /* KBContext.c in Sources */ = {isa = PBXBuildFile; fileRef = FA10C54615ED56190053EED1 /* KBContext.c */; };
 		FA10C55315ED56190053EED1 /* KBDecode.c in Sources */ = {isa = PBXBuildFile; fileRef = FA10C54815ED56190053EED1 /* KBDecode.c */; };
 		FA10C55415ED56190053EED1 /* KBDecodeObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = FA10C54B15ED56190053EED1 /* KBDecodeObjC.m */; };
@@ -39,6 +40,8 @@
 		FA0E6A8B15F2D010009C1423 /* SSPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSPreferencesController.m; sourceTree = "<group>"; };
 		FA0E6A8F15F2D258009C1423 /* SSHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSHTTPRequest.h; sourceTree = "<group>"; };
 		FA0E6A9015F2D258009C1423 /* SSHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSHTTPRequest.m; sourceTree = "<group>"; };
+		FA0E6A9215F2D2BE009C1423 /* SSPreferencesWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPreferencesWindow.h; sourceTree = "<group>"; };
+		FA0E6A9315F2D2BE009C1423 /* SSPreferencesWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSPreferencesWindow.m; sourceTree = "<group>"; };
 		FA10C54515ED56190053EED1 /* KBConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBConst.h; sourceTree = "<group>"; };
 		FA10C54615ED56190053EED1 /* KBContext.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = KBContext.c; sourceTree = "<group>"; };
 		FA10C54715ED56190053EED1 /* KBContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBContext.h; sourceTree = "<group>"; };
@@ -163,6 +166,8 @@
 				FA10C58115ED68140053EED1 /* SSConnectView.m */,
 				FA10C58315ED8E780053EED1 /* SSMainView.h */,
 				FA10C58415ED8E780053EED1 /* SSMainView.m */,
+				FA0E6A9215F2D2BE009C1423 /* SSPreferencesWindow.h */,
+				FA0E6A9315F2D2BE009C1423 /* SSPreferencesWindow.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -361,6 +366,7 @@
 				FAB6775615F02A7700C80B7B /* SSPlexInterface.m in Sources */,
 				FA0E6A8C15F2D010009C1423 /* SSPreferencesController.m in Sources */,
 				FA0E6A9115F2D258009C1423 /* SSHTTPRequest.m in Sources */,
+				FA0E6A9415F2D2BE009C1423 /* SSPreferencesWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

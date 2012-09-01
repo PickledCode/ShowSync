@@ -10,9 +10,7 @@
 #import "SSMainWindow.h"
 #import "SSSyncController.h"
 #import "SSPreferencesController.h"
-
-#define SSDefaultServer @"127.0.0.1"
-#define SSDefaultPort 1337
+#import "KBPSession.h"
 
 @interface SSController : NSObject <KBPSessionDelegate> {
     SSMainWindow * window;

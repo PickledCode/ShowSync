@@ -28,8 +28,14 @@
 
 - (void)registerTag:(NSString *)tag {
     if (!session) {
-        session = [[KBPSession alloc] initWithHost:SSDefaultServer
-                                              port:SSDefaultPort
+        SSPreferencesController * prefs = [SSPreferencesController sharedController];
+        if (![prefs connectHost]) [prefs setConnectHost:SSDefaultServer];
+        if (![prefs connectPort]) [prefs setConnectPort:@SSDefaultPort];
+        NSString * host = [prefs connectHost];
+        int port = [[prefs connectPort] intValue];
+        
+        session = [[KBPSession alloc] initWithHost:host
+                                              port:port
                                           delegate:self];
         if (!session) {
             [window handleConnectError:@"Cannot connect to server."];
