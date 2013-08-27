@@ -44,7 +44,7 @@
     if ([self isPlaying] == playing) return;
     
     if (playing) {
-        [application playOnce:YES];
+        [application playOnce:NO];
     } else {
         [application pause];
     }
