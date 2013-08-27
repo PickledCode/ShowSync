@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2BE83C5C17CD57F2007DBCE4 /* SSiTunesInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE83C5B17CD57F2007DBCE4 /* SSiTunesInterface.m */; };
 		FA0E6A8C15F2D010009C1423 /* SSPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0E6A8B15F2D010009C1423 /* SSPreferencesController.m */; };
 		FA0E6A9115F2D258009C1423 /* SSHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0E6A9015F2D258009C1423 /* SSHTTPRequest.m */; };
 		FA0E6A9415F2D2BE009C1423 /* SSPreferencesWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0E6A9315F2D2BE009C1423 /* SSPreferencesWindow.m */; };
@@ -36,6 +37,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2BE83C5A17CD57F2007DBCE4 /* SSiTunesInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSiTunesInterface.h; path = iTunes/SSiTunesInterface.h; sourceTree = "<group>"; };
+		2BE83C5B17CD57F2007DBCE4 /* SSiTunesInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSiTunesInterface.m; path = iTunes/SSiTunesInterface.m; sourceTree = "<group>"; };
+		2BE83C5D17CD5866007DBCE4 /* iTunes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = iTunes.h; path = iTunes/iTunes.h; sourceTree = "<group>"; };
 		FA0E6A8A15F2D010009C1423 /* SSPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPreferencesController.h; sourceTree = "<group>"; };
 		FA0E6A8B15F2D010009C1423 /* SSPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSPreferencesController.m; sourceTree = "<group>"; };
 		FA0E6A8F15F2D258009C1423 /* SSHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSHTTPRequest.h; sourceTree = "<group>"; };
@@ -107,6 +111,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2BE83C5917CD575A007DBCE4 /* iTunes */ = {
+			isa = PBXGroup;
+			children = (
+				2BE83C5D17CD5866007DBCE4 /* iTunes.h */,
+				2BE83C5A17CD57F2007DBCE4 /* SSiTunesInterface.h */,
+				2BE83C5B17CD57F2007DBCE4 /* SSiTunesInterface.m */,
+			);
+			name = iTunes;
+			sourceTree = "<group>";
+		};
 		FA0E6A8E15F2D258009C1423 /* HTTP */ = {
 			isa = PBXGroup;
 			children = (
@@ -178,6 +192,7 @@
 				FAB6775215F02A6100C80B7B /* Plex */,
 				FA10C56C15ED62C80053EED1 /* VLC */,
 				FA10C56D15ED62C80053EED1 /* QuickTime */,
+				2BE83C5917CD575A007DBCE4 /* iTunes */,
 				FA10C57A15ED67430053EED1 /* SSInterfaceFactory.h */,
 				FA10C57B15ED67430053EED1 /* SSInterfaceFactory.m */,
 				FA6BE5F715EF0950008C4F1D /* SSInterfaceStatus.h */,
@@ -367,6 +382,7 @@
 				FA0E6A8C15F2D010009C1423 /* SSPreferencesController.m in Sources */,
 				FA0E6A9115F2D258009C1423 /* SSHTTPRequest.m in Sources */,
 				FA0E6A9415F2D2BE009C1423 /* SSPreferencesWindow.m in Sources */,
+				2BE83C5C17CD57F2007DBCE4 /* SSiTunesInterface.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
