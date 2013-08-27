@@ -15,9 +15,10 @@
         __unsafe_unretained NSString * name;
         SSInterfaceType type;
     } types[] = {
-        {@"QuickTime", SSInterfaceTypeQuickTime},
         {@"VLC", SSInterfaceTypeVLC},
-        {@"Plex", SSInterfaceTypePlex}
+        {@"QuickTime", SSInterfaceTypeQuickTime},
+        {@"Plex", SSInterfaceTypePlex},
+        {@"iTunes", SSInterfaceTypeiTunes}
     };
     for (int i = 0; i < 3; i++) {
         if ([types[i].name isEqualToString:typeString]) {
@@ -30,14 +31,17 @@
 + (id<SSInterface>)interfaceWithType:(SSInterfaceType)type {
     Class c = Nil;
     switch (type) {
-        case SSInterfaceTypeQuickTime:
-            c = [SSQuickTimeInterface class];
-            break;
         case SSInterfaceTypeVLC:
             c = [SSVLCInterface class];
             break;
+        case SSInterfaceTypeQuickTime:
+            c = [SSQuickTimeInterface class];
+            break;
         case SSInterfaceTypePlex:
             c = [SSPlexInterface class];
+            break;
+        case SSInterfaceTypeiTunes:
+            c = [SSiTunesInterface class];
             break;
         default:
             break;

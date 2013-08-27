@@ -7,14 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SSQuickTimeInterface.h"
 #import "SSVLCInterface.h"
+#import "SSQuickTimeInterface.h"
 #import "SSPlexInterface.h"
+#import "SSiTunesInterface.h"
 
 typedef enum SSInterfaceType {
     SSInterfaceTypeVLC,
     SSInterfaceTypeQuickTime,
-    SSInterfaceTypePlex
+    SSInterfaceTypePlex,
+    SSInterfaceTypeiTunes
 } SSInterfaceType;
 
 @interface SSInterfaceFactory : NSObject
