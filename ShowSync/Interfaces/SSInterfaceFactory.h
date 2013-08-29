@@ -12,16 +12,10 @@
 #import "SSPlexInterface.h"
 #import "SSiTunesInterface.h"
 
-typedef enum SSInterfaceType {
-    SSInterfaceTypeVLC,
-    SSInterfaceTypeQuickTime,
-    SSInterfaceTypePlex,
-    SSInterfaceTypeiTunes
-} SSInterfaceType;
-
 @interface SSInterfaceFactory : NSObject
 
-+ (SSInterfaceType)interfaceTypeForString:(NSString *)typeString;
-+ (id<SSInterface>)interfaceWithType:(SSInterfaceType)type;
++ (NSArray *)interfaceClasses;
++ (NSArray *)interfaceNames;
++ (id<SSInterface>)interfaceWithName:(NSString *)name;
 
 @end

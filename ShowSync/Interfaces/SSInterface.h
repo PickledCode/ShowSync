@@ -10,6 +10,8 @@
 
 @protocol SSInterface <NSObject>
 
++ (NSString *)interfaceName;
+
 - (BOOL)isAvailable;
 
 - (NSTimeInterval)offset;

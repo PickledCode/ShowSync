@@ -10,6 +10,10 @@
 
 @implementation SSiTunesInterface
 
++ (NSString *)interfaceName {
+    return @"iTunes";
+}
+
 - (id)init {
     if ((self = [super init])) {
         application = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];

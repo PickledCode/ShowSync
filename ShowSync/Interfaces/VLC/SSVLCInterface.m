@@ -10,6 +10,10 @@
 
 @implementation SSVLCInterface
 
++ (NSString *)interfaceName {
+    return @"VLC";
+}
+
 - (id)init {
     if ((self = [super init])) {
         application = [SBApplication applicationWithBundleIdentifier:@"org.videolan.vlc"];

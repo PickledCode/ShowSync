@@ -10,6 +10,10 @@
 
 @implementation SSQuickTimeInterface
 
++ (NSString *)interfaceName {
+    return @"QuickTime";
+}
+
 - (id)init {
     if ((self = [super init])) {
         application = [SBApplication applicationWithBundleIdentifier:@"com.apple.QuickTimePlayerX"];

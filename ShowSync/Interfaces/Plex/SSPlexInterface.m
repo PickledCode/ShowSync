@@ -20,6 +20,10 @@
 
 @implementation SSPlexInterface
 
++ (NSString *)interfaceName {
+    return @"Plex";
+}
+
 - (id)init {
     if ((self = [super init])) {
         plexHost = @"http://127.0.0.1:3000";

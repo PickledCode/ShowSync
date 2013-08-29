@@ -10,44 +10,28 @@
 
 @implementation SSInterfaceFactory
 
-+ (SSInterfaceType)interfaceTypeForString:(NSString *)typeString {
-    struct {
-        __unsafe_unretained NSString * name;
-        SSInterfaceType type;
-    } types[] = {
-        {@"VLC", SSInterfaceTypeVLC},
-        {@"QuickTime", SSInterfaceTypeQuickTime},
-        {@"Plex", SSInterfaceTypePlex},
-        {@"iTunes", SSInterfaceTypeiTunes}
-    };
-    for (int i = 0; i < 4; i++) {
-        if ([types[i].name isEqualToString:typeString]) {
-            return types[i].type;
-        }
-    }
-    return 0;
++ (NSArray *)interfaceClasses {
+    return @[[SSVLCInterface class], [SSQuickTimeInterface class], [SSPlexInterface class], [SSiTunesInterface class]];
 }
 
-+ (id<SSInterface>)interfaceWithType:(SSInterfaceType)type {
-    Class c = Nil;
-    switch (type) {
-        case SSInterfaceTypeVLC:
-            c = [SSVLCInterface class];
-            break;
-        case SSInterfaceTypeQuickTime:
-            c = [SSQuickTimeInterface class];
-            break;
-        case SSInterfaceTypePlex:
-            c = [SSPlexInterface class];
-            break;
-        case SSInterfaceTypeiTunes:
-            c = [SSiTunesInterface class];
-            break;
-        default:
-            break;
++ (NSArray *)interfaceNames {
+    NSMutableArray * names = [NSMutableArray array];
+    for (Class aClass in [self interfaceClasses]) {
+        [names addObject:[aClass interfaceName]];
     }
-    if (c == Nil) return nil;
-    return [[c alloc] init];
+    return [names copy]; // copy it to make it immutable
+}
+
++ (id<SSInterface>)interfaceWithName:(NSString *)name {
+    Class class = Nil;
+    for (Class aClass in [self interfaceClasses]) {
+        if ([[aClass interfaceName] isEqualToString:name]) {
+            class = aClass;
+            break;
+        }
+    }
+    if (class == Nil) return nil;
+    return [[class alloc] init];
 }
 
 @end

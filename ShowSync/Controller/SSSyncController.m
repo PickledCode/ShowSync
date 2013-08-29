@@ -25,8 +25,7 @@
         
         // create the interface based on user application drop-down
         NSString * interfaceName = aController.window.applicationName;
-        SSInterfaceType type = [SSInterfaceFactory interfaceTypeForString:interfaceName];
-        interface = [SSInterfaceFactory interfaceWithType:type];
+        interface = [SSInterfaceFactory interfaceWithName:interfaceName];
         
         timer = [NSTimer scheduledTimerWithTimeInterval:0.25
                                                  target:self
