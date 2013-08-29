@@ -164,14 +164,12 @@
 }
 
 - (void)handleConnected {
-    NSLog(@"Connected, bitchesss");
     [self showMainView];
     [self stopLoading];
     [statusField setHidden:YES];
 }
 
 - (void)handleDisconnected {
-    NSLog(@"Disconnected, bitchesss");
     [self showConnectView];
     [self stopLoading];
     
