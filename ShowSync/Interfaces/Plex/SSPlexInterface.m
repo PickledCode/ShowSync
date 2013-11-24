@@ -18,6 +18,26 @@
 
 @end
 
+
+NSTimeInterval plexTimeToInterval(NSDictionary * t1) {
+    NSTimeInterval hours = [t1[@"hours"] doubleValue];
+    NSTimeInterval minutes = [t1[@"minutes"] doubleValue];
+    NSTimeInterval seconds = [t1[@"seconds"] doubleValue];
+    NSTimeInterval ms = [t1[@"milliseconds"] doubleValue];
+    return (ms / 1000.0) + seconds + (minutes * 60) + (hours * 60 * 60);
+}
+NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
+    long long msTime = (long long)(foo * 1000);
+    long long ms = msTime % 1000;
+    msTime /= 1000;
+    long long seconds = msTime % 60;
+    msTime /= 60;
+    long long minutes = msTime % 60;
+    long long hours = msTime / 60;
+    return @{@"milliseconds": @(ms), @"seconds": @(seconds),
+             @"hours": @(hours), @"minutes": @(minutes)};
+}
+
 @implementation SSPlexInterface
 
 + (NSString *)interfaceName {
@@ -26,7 +46,7 @@
 
 - (id)init {
     if ((self = [super init])) {
-        plexHost = @"http://127.0.0.1:3000";
+        plexHost = @"http://127.0.0.1:3005";
         
         [self startBackground];
         pending = [[NSMutableDictionary alloc] init];
@@ -83,26 +103,48 @@
     while (true) {
         @autoreleasepool {
             // give 10ms for entire loop
-            NSDate * doneDate = [NSDate dateWithTimeIntervalSinceNow:0.01];
+            NSDate * doneDate = [NSDate dateWithTimeIntervalSinceNow:0.05];
             
             if ([[NSThread currentThread] isCancelled]) return;
             [self doPendingSets];
             if ([[NSThread currentThread] isCancelled]) return;
             
             // Get plex info
-            NSDictionary *sendObject = @{@"jsonrpc": @"2.0", @"method": @"VideoPlayer.GetTimeMS", @"id": @1};
+            NSDictionary *sendObject = @{
+                @"jsonrpc": @"2.0",
+                @"id": @1,
+                @"method": @"Player.GetProperties",
+                @"params": @[
+                    @1,
+                    @[
+                        @"time",
+                        @"totaltime",
+                        @"speed"
+                    ]
+                ]
+            };
             NSDictionary *plexData = [SSHTTPRequest postUrl:[self plexUrlWithPath:@"/jsonrpc"] withJsonData:sendObject];
             NSDictionary *result = [plexData objectForKey:@"result"];
             
-            NSTimeInterval offset = (NSTimeInterval)([[result objectForKey:@"time"] doubleValue]/1000);
-            BOOL playing = ![[result objectForKey:@"paused"] boolValue];
-            BOOL active = [[result objectForKey:@"playing"] boolValue];
+            BOOL active = result != nil;
+            
+            if (active && result[@"error"] != nil) {
+                active = NO;
+            }
             
             dispatch_sync(dispatch_get_main_queue(), ^{
-                serverOffset = offset;
-                serverPlaying = playing;
                 serverActive = active;
             });
+            
+            if (active) {
+                NSTimeInterval offset = plexTimeToInterval(result[@"time"]);
+                BOOL playing = [[result objectForKey:@"speed"] floatValue] > 0;
+                
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    serverOffset = offset;
+                    serverPlaying = playing;
+                });
+            }
             
             [NSThread sleepUntilDate:doneDate];
         }
@@ -134,32 +176,33 @@
 #pragma mark Requests
 
 - (void)sendSetPlayingRequest:(BOOL)playing {
-//    var method = this.activePlayer + ((this.playing || this.paused) ? 'Player.PlayPause' : 'Playlist.Play');
-//    jQuery.post(JSON_RPC + '?PlayPause', '{"jsonrpc": "2.0", "method": "' + method + '", "id": 1}', jQuery.proxy(function(data) {
-//        if (data && data.result) {
-//            this.playing = data.result.playing;
-//            this.paused = data.result.paused;
-//            if (this.playing) {
-//                this.showPauseButton();
-//            } else {
-//                this.showPlayButton();
-//            }
-//        }
-//    }, this), 'json');
-    
     // tell plex server that we are playing or paused
     if (playing == serverPlaying) return;
     
-    NSString *method = @"VideoPlayer.PlayPause";
-    NSDictionary *sendObject = @{@"jsonrpc": @"2.0", @"method": method, @"id": @1};
+    // PlayPause works for now, or we can do SetSpeed
+    NSDictionary *sendObject = @{
+        @"jsonrpc": @"2.0",
+        @"id": @1,
+        @"method": @"Player.PlayPause",
+        @"params": @[
+            @1
+        ]
+    };
     [SSHTTPRequest postUrl:[self plexUrlWithPath:@"/jsonrpc"] withJsonData:sendObject];
 }
 
 - (void)sendSetOffsetRequest:(NSTimeInterval)time {
     // tell plex server the desired offset
     
-    NSNumber *sendTime = [NSNumber numberWithDouble:round(time)];
-    NSDictionary *sendObject = @{@"jsonrpc": @"2.0", @"method": @"VideoPlayer.SeekTime", @"params": sendTime, @"id": @1};
+    NSDictionary *sendObject = @{
+        @"jsonrpc": @"2.0",
+        @"id": @1,
+        @"method": @"Player.Seek",
+        @"params": @[
+            @1,
+            intervalToPlexTime(time)
+        ]
+    };
     [SSHTTPRequest postUrl:[self plexUrlWithPath:@"/jsonrpc"] withJsonData:sendObject];
 }
 
