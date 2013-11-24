@@ -102,7 +102,7 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message {
-    NSLog(@"-webSocket:didReceiveMessage: %@", message);
+    NSLog(@"-webSocket:didReceiveMessage: (see below)");
     
     // message will either be an NSString if the server is using text
     // or NSData if the server is using binary.
@@ -117,6 +117,10 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
     NSLog(@"JSON: %@", json);
     
     NSString *method = json[@"method"];
+    if (method == nil) {
+        NSLog(@"No method found. Giving up.");
+        return;
+    }
     NSArray *methodParts = [method componentsSeparatedByString:@"."];
     
     if ([methodParts[0] isEqualToString:@"Player"])
@@ -148,6 +152,13 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
             serverOffset = plexTimeToInterval(json[@"params"][@"data"][@"player"][@"time"]);
         }
 
+    }
+    else if ([methodParts[0] isEqualToString:@"System"])
+    {
+        if ([methodParts[1] isEqualToString:@"OnQuit"])
+        {
+            serverActive = NO;
+        }
     }
 }
 
