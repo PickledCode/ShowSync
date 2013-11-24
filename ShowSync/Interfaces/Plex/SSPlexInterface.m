@@ -66,6 +66,13 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
 }
 
 - (void)setPlaying:(BOOL)playing {
+    if (playing == serverPlaying) return;
+    
+    NSDictionary *send = @{
+        @"method": @"Player.PlayPause",
+        @"params": @{}
+    };
+    [self sendWebsocket:send];
 }
 
 - (NSTimeInterval)offset {
@@ -73,18 +80,32 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
 }
 
 - (void)setOffset:(NSTimeInterval)offset {
+    NSDictionary *send = @{
+        @"method": @"Player.Seek",
+        @"params": @{
+            @"time": intervalToPlexTime(offset)
+        }
+    };
+    [self sendWebsocket:send];
 }
 
 -(void)invalidate {
+    [websocket close];
 }
 
 #pragma mark - Websocket delegates
 
-// message will either be an NSString if the server is using text
-// or NSData if the server is using binary.
+-(void)sendWebsocket:(NSDictionary*)json {
+    NSMutableDictionary *newJson = [NSMutableDictionary dictionaryWithDictionary:json];
+    [newJson setObject:@"2.0" forKey:@"jsonrpc"];
+    return [websocket send:[NSJSONSerialization dataWithJSONObject:newJson options:0 error:nil]];
+}
+
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message {
     NSLog(@"-webSocket:didReceiveMessage: %@", message);
     
+    // message will either be an NSString if the server is using text
+    // or NSData if the server is using binary.
     NSData *msgData = nil;
     if ([message isKindOfClass:[NSString class]]) {
         msgData = [(NSString*)message dataUsingEncoding:NSUTF8StringEncoding];
@@ -98,8 +119,21 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
     NSString *method = json[@"method"];
     NSArray *methodParts = [method componentsSeparatedByString:@"."];
     
-    if ([methodParts[0] isEqualToString:@"Player"]) {
-        
+    if ([methodParts[0] isEqualToString:@"Player"])
+    {
+        if ([methodParts[1] isEqualToString:@"OnPlay"])
+        {
+            serverPlaying = YES;
+        }
+        else if ([methodParts[1] isEqualToString:@"OnPause"] ||
+                 [methodParts[1] isEqualToString:@"OnStop"])
+        {
+            serverPlaying = NO;
+        }
+        else if ([methodParts[1] isEqualToString:@"OnSeek"])
+        {
+            serverOffset = plexTimeToInterval(json[@"params"][@"data"][@"player"][@"time"]);
+        }
     }
 }
 
