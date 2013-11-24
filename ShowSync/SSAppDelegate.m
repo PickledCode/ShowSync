@@ -11,6 +11,8 @@
 @implementation SSAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    [[NSProcessInfo processInfo] disableAutomaticTermination:@"ShowSync polls in background for player status by design"];
+    
     controllers = [[NSMutableArray alloc] init];
     [self newWindow:nil];
 }
