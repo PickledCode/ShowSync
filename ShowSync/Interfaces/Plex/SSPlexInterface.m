@@ -121,7 +121,14 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
     
     if ([methodParts[0] isEqualToString:@"Player"])
     {
-        if ([methodParts[1] isEqualToString:@"OnPlay"])
+        // Handle updates we want
+        if ([methodParts[1] isEqualToString:@"OnPropertyChanged"])
+        {
+            
+        }
+        
+        // Handle play/pause state
+        else if ([methodParts[1] isEqualToString:@"OnPlay"])
         {
             serverPlaying = YES;
         }
@@ -130,10 +137,17 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
         {
             serverPlaying = NO;
         }
+        else if ([methodParts[1] isEqualToString:@"OnSpeedChanged"])
+        {
+            // TODO
+        }
+        
+        // Handle user seeking
         else if ([methodParts[1] isEqualToString:@"OnSeek"])
         {
             serverOffset = plexTimeToInterval(json[@"params"][@"data"][@"player"][@"time"]);
         }
+
     }
 }
 
