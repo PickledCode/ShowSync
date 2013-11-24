@@ -22,7 +22,4 @@
     NSTimeInterval serverOffset;
 }
 
-- (void)startBackground;
-- (void)stopBackground;
-
 @end

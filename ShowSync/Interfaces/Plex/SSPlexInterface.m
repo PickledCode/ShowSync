@@ -49,8 +49,6 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
     if ((self = [super init])) {
         plexHost = @"ws://127.0.0.1:3005/jsonrpc";
         
-//        [self startBackground];
-        
         NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:plexHost]];
         websocket = [[SRWebSocket alloc] initWithURLRequest:req];
         websocket.delegate = self;
@@ -68,7 +66,6 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
 }
 
 - (void)setPlaying:(BOOL)playing {
-    
 }
 
 - (NSTimeInterval)offset {
@@ -76,27 +73,10 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
 }
 
 - (void)setOffset:(NSTimeInterval)offset {
-    
 }
 
-#pragma mark - Thread Control -
-
-//- (void)startBackground {
-//    if (bgThread) return;
-//    bgThread = [[NSThread alloc] initWithTarget:self
-//                                       selector:@selector(pollServer)
-//                                         object:nil];
-//    [bgThread start];
-//}
-//
-//- (void)stopBackground {
-//    [bgThread cancel];
-//    bgThread = nil;
-//}
-//
-//- (void)invalidate {
-//    [self stopBackground];
-//}
+-(void)invalidate {
+}
 
 #pragma mark - Websocket delegates
 
