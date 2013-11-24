@@ -90,6 +90,7 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
 }
 
 -(void)invalidate {
+    if (pollTimer) [pollTimer invalidate], pollTimer = nil;
     [websocket close];
 }
 
@@ -99,6 +100,24 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
     NSMutableDictionary *newJson = [NSMutableDictionary dictionaryWithDictionary:json];
     [newJson setObject:@"2.0" forKey:@"jsonrpc"];
     return [websocket send:[NSJSONSerialization dataWithJSONObject:newJson options:0 error:nil]];
+}
+
+- (void)requestPoll:(id)sender {
+    NSLog(@"-requestPoll");
+    if (!serverPlayerid) return;
+    
+    NSDictionary *json = @{
+        @"id": @2,
+        @"method": @"Player.GetProperties",
+        @"params": @{
+            @"playerid": serverPlayerid,
+            @"properties": @[
+                @"time",
+                @"speed"
+            ]
+        }
+    };
+    [self sendWebsocket:json];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message {
@@ -117,22 +136,37 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
     NSLog(@"JSON: %@", json);
     
     NSString *method = json[@"method"];
-    if (method == nil) {
-        NSLog(@"No method found. Giving up.");
-        return;
-    }
     NSArray *methodParts = [method componentsSeparatedByString:@"."];
     
-    if ([methodParts[0] isEqualToString:@"Player"])
+    NSString *sender = json[@"params"][@"sender"];
+    if (sender && ![sender isEqualToString:@"xbmc"])
     {
-        // Handle updates we want
-        if ([methodParts[1] isEqualToString:@"OnPropertyChanged"])
+        NSLog(@"Unknown sender: %@", sender);
+        return;
+    }
+    
+    if (json[@"id"] && json[@"result"])
+    {
+        if ([json[@"id"] isEqualToNumber:@2])
         {
-            
+            if (json[@"result"][@"time"])
+            {
+                serverOffset = plexTimeToInterval(json[@"result"][@"time"]);
+            }
+            if (json[@"result"][@"speed"])
+            {
+                serverPlaying = [json[@"result"][@"speed"] floatValue] > 0;
+            }
         }
-        
+        else if ([json[@"id"] isEqualToNumber:@3])
+        {
+            serverPlayerid = json[@"result"][0][@"playerid"];
+        }
+    }
+    else if ([methodParts[0] isEqualToString:@"Player"])
+    {
         // Handle play/pause state
-        else if ([methodParts[1] isEqualToString:@"OnPlay"])
+        if ([methodParts[1] isEqualToString:@"OnPlay"])
         {
             serverPlaying = YES;
         }
@@ -165,6 +199,14 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket {
     NSLog(@"-webSocketDidOpen");
     serverActive = YES;
+    
+    NSDictionary *json = @{
+        @"id": @3,
+        @"method": @"Player.GetActivePlayers"
+    };
+    [self sendWebsocket:json];
+
+    pollTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(requestPoll:) userInfo:nil repeats:YES];
 }
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
     NSLog(@"-webSocket:DidFailWithError: %@", error);

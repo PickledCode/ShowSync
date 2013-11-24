@@ -15,11 +15,14 @@
     NSString * plexHost;
     
     NSThread * bgThread;
-    SRWebSocket *websocket;
+    SRWebSocket * websocket;
     
     BOOL serverActive;
     BOOL serverPlaying;
     NSTimeInterval serverOffset;
+    NSNumber *serverPlayerid;
+    
+    NSTimer *pollTimer;
 }
 
 @end
