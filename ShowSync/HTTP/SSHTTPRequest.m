@@ -14,12 +14,21 @@
     NSData *data = [NSJSONSerialization dataWithJSONObject:json options:0 error:nil];
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     [req setHTTPMethod:@"POST"];
+    [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [req setHTTPBody:data];
     
     NSURLResponse *response = nil;
     NSError *error = nil;
     NSData *responseData = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&error];
-    if (error) return nil;
+
+//    NSLog(@"Req: %@", json);
+//    NSLog(@"Resp: %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+    
+    if (error) {
+        NSLog(@"Request error: %@", error);
+        return nil;
+    }
+    
     return [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
 }
 
