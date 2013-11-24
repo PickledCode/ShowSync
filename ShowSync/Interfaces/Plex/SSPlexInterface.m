@@ -47,7 +47,7 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
 
 - (id)init {
     if ((self = [super init])) {
-        plexHost = @"ws://127.0.0.1:3005/jsonrpc";
+        plexHost = @"ws://127.0.0.1:9090/jsonrpc";
         
         NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:plexHost]];
         websocket = [[SRWebSocket alloc] initWithURLRequest:req];
@@ -84,16 +84,36 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
 // or NSData if the server is using binary.
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message {
     NSLog(@"-webSocket:didReceiveMessage: %@", message);
+    
+    NSData *msgData = nil;
+    if ([message isKindOfClass:[NSString class]]) {
+        msgData = [(NSString*)message dataUsingEncoding:NSUTF8StringEncoding];
+    } else if ([message isKindOfClass:[NSData class]]) {
+        msgData = message;
+    }
+    
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:msgData options:0 error:nil];
+    NSLog(@"JSON: %@", json);
+    
+    NSString *method = json[@"method"];
+    NSArray *methodParts = [method componentsSeparatedByString:@"."];
+    
+    if ([methodParts[0] isEqualToString:@"Player"]) {
+        
+    }
 }
 
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket {
     NSLog(@"-webSocketDidOpen");
+    serverActive = YES;
 }
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
     NSLog(@"-webSocket:DidFailWithError: %@", error);
+    serverActive = NO;
 }
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
     NSLog(@"-webSocket:didCloseWithCode: %ld reason: %@ wasClean: %d", (long)code, reason, wasClean);
+    serverActive = NO;
 }
 
 @end
