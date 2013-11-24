@@ -20,12 +20,13 @@
 
 
 NSTimeInterval plexTimeToInterval(NSDictionary * t1) {
-    NSTimeInterval hours = [t1[@"hours"] doubleValue];
-    NSTimeInterval minutes = [t1[@"minutes"] doubleValue];
-    NSTimeInterval seconds = [t1[@"seconds"] doubleValue];
-    NSTimeInterval ms = [t1[@"milliseconds"] doubleValue];
-    return (ms / 1000.0) + seconds + (minutes * 60) + (hours * 60 * 60);
+    long long hours = [t1[@"hours"] longLongValue];
+    long long minutes = [t1[@"minutes"] longLongValue];
+    long long seconds = [t1[@"seconds"] longLongValue];
+    long long ms = [t1[@"milliseconds"] longLongValue];
+    return (NSTimeInterval)(round(ms / 1000.0) + seconds + (minutes * 60) + (hours * 60 * 60));
 }
+
 NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
     long long msTime = (long long)(foo * 1000);
     long long ms = msTime % 1000;
@@ -69,8 +70,11 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
     if (playing == serverPlaying) return;
     
     NSDictionary *send = @{
+        @"id": kPlexIdRequestPlayPause,
         @"method": @"Player.PlayPause",
-        @"params": @{}
+        @"params": @{
+            @"playerid": serverPlayerid
+        }
     };
     [self sendWebsocket:send];
 }
@@ -81,8 +85,10 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
 
 - (void)setOffset:(NSTimeInterval)offset {
     NSDictionary *send = @{
+        @"id": kPlexIdRequestSeek,
         @"method": @"Player.Seek",
         @"params": @{
+            @"playerid": serverPlayerid,
             @"time": intervalToPlexTime(offset)
         }
     };
@@ -103,11 +109,23 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
 }
 
 - (void)requestPoll:(id)sender {
-    NSLog(@"-requestPoll");
-    if (!serverPlayerid) return;
+
+    if (!serverPlayerid)
+    {
+        NSLog(@"-requestPoll GetActivePlayers");
+        
+        NSDictionary *json = @{
+            @"id": kPlexIdRequestPlayers,
+            @"method": @"Player.GetActivePlayers"
+        };
+        [self sendWebsocket:json];
+        return;
+    }
+    
+    NSLog(@"-requestPoll GetProperties (%@)", serverPlayerid);
     
     NSDictionary *json = @{
-        @"id": @2,
+        @"id": kPlexIdRequestPoll,
         @"method": @"Player.GetProperties",
         @"params": @{
             @"playerid": serverPlayerid,
@@ -145,9 +163,15 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
         return;
     }
     
+    if (json[@"error"])
+    {
+        NSLog(@"Got error: %@", json[@"error"]);
+        return;
+    }
+    
     if (json[@"id"] && json[@"result"])
     {
-        if ([json[@"id"] isEqualToNumber:@2])
+        if ([json[@"id"] isEqualToNumber:kPlexIdRequestPoll])
         {
             if (json[@"result"][@"time"])
             {
@@ -158,9 +182,16 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
                 serverPlaying = [json[@"result"][@"speed"] floatValue] > 0;
             }
         }
-        else if ([json[@"id"] isEqualToNumber:@3])
+        else if ([json[@"id"] isEqualToNumber:kPlexIdRequestPlayers] && [json[@"result"] count])
         {
             serverPlayerid = json[@"result"][0][@"playerid"];
+        }
+        else if ([json[@"id"] isEqualToNumber:kPlexIdRequestPlayPause])
+        {
+            serverPlaying = [json[@"result"][@"speed"] floatValue] > 0;
+        }
+        else if ([json[@"id"] isEqualToNumber:kPlexIdRequestSeek])
+        {
         }
     }
     else if ([methodParts[0] isEqualToString:@"Player"])
@@ -183,6 +214,7 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
         // Handle user seeking
         else if ([methodParts[1] isEqualToString:@"OnSeek"])
         {
+            serverPlaying = [json[@"params"][@"data"][@"player"][@"speed"] floatValue] > 0;
             serverOffset = plexTimeToInterval(json[@"params"][@"data"][@"player"][@"time"]);
         }
 
@@ -199,12 +231,6 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket {
     NSLog(@"-webSocketDidOpen");
     serverActive = YES;
-    
-    NSDictionary *json = @{
-        @"id": @3,
-        @"method": @"Player.GetActivePlayers"
-    };
-    [self sendWebsocket:json];
 
     pollTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(requestPoll:) userInfo:nil repeats:YES];
 }
