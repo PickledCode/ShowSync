@@ -49,7 +49,12 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
     if ((self = [super init])) {
         plexHost = @"ws://127.0.0.1:3005/jsonrpc";
         
-        [self startBackground];
+//        [self startBackground];
+        
+        NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:plexHost]];
+        websocket = [[SRWebSocket alloc] initWithURLRequest:req];
+        websocket.delegate = self;
+        [websocket open];
     }
     return self;
 }
@@ -76,21 +81,39 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
 
 #pragma mark - Thread Control -
 
-- (void)startBackground {
-    if (bgThread) return;
-    bgThread = [[NSThread alloc] initWithTarget:self
-                                       selector:@selector(pollServer)
-                                         object:nil];
-    [bgThread start];
+//- (void)startBackground {
+//    if (bgThread) return;
+//    bgThread = [[NSThread alloc] initWithTarget:self
+//                                       selector:@selector(pollServer)
+//                                         object:nil];
+//    [bgThread start];
+//}
+//
+//- (void)stopBackground {
+//    [bgThread cancel];
+//    bgThread = nil;
+//}
+//
+//- (void)invalidate {
+//    [self stopBackground];
+//}
+
+#pragma mark - Websocket delegates
+
+// message will either be an NSString if the server is using text
+// or NSData if the server is using binary.
+- (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message {
+    NSLog(@"-webSocket:didReceiveMessage: %@", message);
 }
 
-- (void)stopBackground {
-    [bgThread cancel];
-    bgThread = nil;
+- (void)webSocketDidOpen:(SRWebSocket *)webSocket {
+    NSLog(@"-webSocketDidOpen");
 }
-
-- (void)invalidate {
-    [self stopBackground];
+- (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
+    NSLog(@"-webSocket:DidFailWithError: %@", error);
+}
+- (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
+    NSLog(@"-webSocket:didCloseWithCode: %ld reason: %@ wasClean: %d", (long)code, reason, wasClean);
 }
 
 @end

@@ -9,12 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "SSInterface.h"
 #import "SSHTTPRequest.h"
+#import <SocketRocket/SRWebSocket.h>
 
-@interface SSPlexInterface : NSObject <SSInterface> {
+@interface SSPlexInterface : NSObject <SSInterface, SRWebSocketDelegate> {
     NSString * plexHost;
     
     NSThread * bgThread;
-    NSMutableDictionary * pending;
+    SRWebSocket *websocket;
     
     BOOL serverActive;
     BOOL serverPlaying;
