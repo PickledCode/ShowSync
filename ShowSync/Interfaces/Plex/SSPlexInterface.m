@@ -20,12 +20,13 @@
 
 
 NSTimeInterval plexTimeToInterval(NSDictionary * t1) {
-    NSTimeInterval hours = [t1[@"hours"] doubleValue];
-    NSTimeInterval minutes = [t1[@"minutes"] doubleValue];
-    NSTimeInterval seconds = [t1[@"seconds"] doubleValue];
-    NSTimeInterval ms = [t1[@"milliseconds"] doubleValue];
-    return (ms / 1000.0) + seconds + (minutes * 60) + (hours * 60 * 60);
+    long long hours = [t1[@"hours"] longLongValue];
+    long long minutes = [t1[@"minutes"] longLongValue];
+    long long seconds = [t1[@"seconds"] longLongValue];
+    long long ms = [t1[@"milliseconds"] longLongValue];
+    return (NSTimeInterval)(round(ms / 1000.0) + seconds + (minutes * 60) + (hours * 60 * 60));
 }
+
 NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
     long long msTime = (long long)(foo * 1000);
     long long ms = msTime % 1000;
@@ -38,6 +39,7 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
              @"hours": @(hours), @"minutes": @(minutes)};
 }
 
+
 @implementation SSPlexInterface
 
 + (NSString *)interfaceName {
@@ -46,10 +48,12 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
 
 - (id)init {
     if ((self = [super init])) {
-        plexHost = @"http://127.0.0.1:3005";
+        plexHost = @"ws://127.0.0.1:9090/jsonrpc";
         
-        [self startBackground];
-        pending = [[NSMutableDictionary alloc] init];
+        NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:plexHost]];
+        websocket = [[SRWebSocket alloc] initWithURLRequest:req];
+        websocket.delegate = self;
+        [websocket open];
     }
     return self;
 }
@@ -63,9 +67,16 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
 }
 
 - (void)setPlaying:(BOOL)playing {
-    @synchronized (pending) {
-        [pending setObject:[NSNumber numberWithBool:playing] forKey:@"playing"];
-    }
+    if (playing == serverPlaying) return;
+    
+    NSDictionary *send = @{
+        @"id": kPlexIdRequestPlayPause,
+        @"method": @"Player.PlayPause",
+        @"params": @{
+            @"playerid": serverPlayerid
+        }
+    };
+    [self sendWebsocket:send];
 }
 
 - (NSTimeInterval)offset {
@@ -73,144 +84,163 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
 }
 
 - (void)setOffset:(NSTimeInterval)offset {
-    @synchronized (pending) {
-        [pending setObject:[NSNumber numberWithDouble:offset] forKey:@"offset"];
-    }
-}
-
-#pragma mark - Thread Control -
-
-- (void)startBackground {
-    if (bgThread) return;
-    bgThread = [[NSThread alloc] initWithTarget:self
-                                       selector:@selector(pollServer)
-                                         object:nil];
-    [bgThread start];
-}
-
-- (void)stopBackground {
-    [bgThread cancel];
-    bgThread = nil;
-}
-
-- (void)invalidate {
-    [self stopBackground];
-}
-
-#pragma mark - Server -
-
-- (void)pollServer {
-    while (true) {
-        @autoreleasepool {
-            // give 10ms for entire loop
-            NSDate * doneDate = [NSDate dateWithTimeIntervalSinceNow:0.05];
-            
-            if ([[NSThread currentThread] isCancelled]) return;
-            [self doPendingSets];
-            if ([[NSThread currentThread] isCancelled]) return;
-            
-            // Get plex info
-            NSDictionary *sendObject = @{
-                @"jsonrpc": @"2.0",
-                @"id": @1,
-                @"method": @"Player.GetProperties",
-                @"params": @[
-                    @1,
-                    @[
-                        @"time",
-                        @"totaltime",
-                        @"speed"
-                    ]
-                ]
-            };
-            NSDictionary *plexData = [SSHTTPRequest postUrl:[self plexUrlWithPath:@"/jsonrpc"] withJsonData:sendObject];
-            NSDictionary *result = [plexData objectForKey:@"result"];
-            
-            BOOL active = result != nil;
-            
-            if (active && result[@"error"] != nil) {
-                active = NO;
-            }
-            
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                serverActive = active;
-            });
-            
-            if (active) {
-                NSTimeInterval offset = plexTimeToInterval(result[@"time"]);
-                BOOL playing = [[result objectForKey:@"speed"] floatValue] > 0;
-                
-                dispatch_sync(dispatch_get_main_queue(), ^{
-                    serverOffset = offset;
-                    serverPlaying = playing;
-                });
-            }
-            
-            [NSThread sleepUntilDate:doneDate];
-        }
-    }
-}
-
-- (void)doPendingSets {
-    NSArray * keys = nil;
-    NSArray * objects = nil;
-    @synchronized (pending) {
-        if ([[pending allKeys] count] > 0) {
-            keys = [pending allKeys];
-            objects = [pending objectsForKeys:keys notFoundMarker:[NSNull null]];
-            [pending removeAllObjects];
-        }
-    }
-    for (NSUInteger i = 0; i < [keys count]; i++) {
-        NSString * key = [keys objectAtIndex:i];
-        NSNumber * obj = [objects objectAtIndex:i];
-        if ([key isEqualToString:@"playing"]) {
-            [self sendSetPlayingRequest:[obj boolValue]];
-        } else if ([key isEqualToString:@"offset"]) {
-            [self sendSetOffsetRequest:[obj doubleValue]];
-        }
-        if ([[NSThread currentThread] isCancelled]) return;
-    }
-}
-
-#pragma mark Requests
-
-- (void)sendSetPlayingRequest:(BOOL)playing {
-    // tell plex server that we are playing or paused
-    if (playing == serverPlaying) return;
-    
-    // PlayPause works for now, or we can do SetSpeed
-    NSDictionary *sendObject = @{
-        @"jsonrpc": @"2.0",
-        @"id": @1,
-        @"method": @"Player.PlayPause",
-        @"params": @[
-            @1
-        ]
-    };
-    [SSHTTPRequest postUrl:[self plexUrlWithPath:@"/jsonrpc"] withJsonData:sendObject];
-}
-
-- (void)sendSetOffsetRequest:(NSTimeInterval)time {
-    // tell plex server the desired offset
-    
-    NSDictionary *sendObject = @{
-        @"jsonrpc": @"2.0",
-        @"id": @1,
+    NSDictionary *send = @{
+        @"id": kPlexIdRequestSeek,
         @"method": @"Player.Seek",
-        @"params": @[
-            @1,
-            intervalToPlexTime(time)
-        ]
+        @"params": @{
+            @"playerid": serverPlayerid,
+            @"time": intervalToPlexTime(offset)
+        }
     };
-    [SSHTTPRequest postUrl:[self plexUrlWithPath:@"/jsonrpc"] withJsonData:sendObject];
+    [self sendWebsocket:send];
 }
 
-#pragma mark Helper
+-(void)invalidate {
+    if (pollTimer) [pollTimer invalidate], pollTimer = nil;
+    [websocket close];
+}
 
--(NSString*)plexUrlWithPath:(NSString*)path {
-    // Nothing special
-    return [plexHost stringByAppendingString:path];
+#pragma mark - Websocket delegates
+
+-(void)sendWebsocket:(NSDictionary*)json {
+    NSMutableDictionary *newJson = [NSMutableDictionary dictionaryWithDictionary:json];
+    [newJson setObject:@"2.0" forKey:@"jsonrpc"];
+    return [websocket send:[NSJSONSerialization dataWithJSONObject:newJson options:0 error:nil]];
+}
+
+- (void)requestPoll:(id)sender {
+
+    if (!serverPlayerid)
+    {
+        NSLog(@"-requestPoll GetActivePlayers");
+        
+        NSDictionary *json = @{
+            @"id": kPlexIdRequestPlayers,
+            @"method": @"Player.GetActivePlayers"
+        };
+        [self sendWebsocket:json];
+        return;
+    }
+    
+    NSLog(@"-requestPoll GetProperties (%@)", serverPlayerid);
+    
+    NSDictionary *json = @{
+        @"id": kPlexIdRequestPoll,
+        @"method": @"Player.GetProperties",
+        @"params": @{
+            @"playerid": serverPlayerid,
+            @"properties": @[
+                @"time",
+                @"speed"
+            ]
+        }
+    };
+    [self sendWebsocket:json];
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message {
+    NSLog(@"-webSocket:didReceiveMessage: (see below)");
+    
+    // message will either be an NSString if the server is using text
+    // or NSData if the server is using binary.
+    NSData *msgData = nil;
+    if ([message isKindOfClass:[NSString class]]) {
+        msgData = [(NSString*)message dataUsingEncoding:NSUTF8StringEncoding];
+    } else if ([message isKindOfClass:[NSData class]]) {
+        msgData = message;
+    }
+    
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:msgData options:0 error:nil];
+    NSLog(@"JSON: %@", json);
+    
+    NSString *method = json[@"method"];
+    NSArray *methodParts = [method componentsSeparatedByString:@"."];
+    
+    NSString *sender = json[@"params"][@"sender"];
+    if (sender && ![sender isEqualToString:@"xbmc"])
+    {
+        NSLog(@"Unknown sender: %@", sender);
+        return;
+    }
+    
+    if (json[@"error"])
+    {
+        NSLog(@"Got error: %@", json[@"error"]);
+        return;
+    }
+    
+    if (json[@"id"] && json[@"result"])
+    {
+        if ([json[@"id"] isEqualToNumber:kPlexIdRequestPoll])
+        {
+            if (json[@"result"][@"time"])
+            {
+                serverOffset = plexTimeToInterval(json[@"result"][@"time"]);
+            }
+            if (json[@"result"][@"speed"])
+            {
+                serverPlaying = [json[@"result"][@"speed"] floatValue] > 0;
+            }
+        }
+        else if ([json[@"id"] isEqualToNumber:kPlexIdRequestPlayers] && [json[@"result"] count])
+        {
+            serverPlayerid = json[@"result"][0][@"playerid"];
+        }
+        else if ([json[@"id"] isEqualToNumber:kPlexIdRequestPlayPause])
+        {
+            serverPlaying = [json[@"result"][@"speed"] floatValue] > 0;
+        }
+        else if ([json[@"id"] isEqualToNumber:kPlexIdRequestSeek])
+        {
+        }
+    }
+    else if ([methodParts[0] isEqualToString:@"Player"])
+    {
+        // Handle play/pause state
+        if ([methodParts[1] isEqualToString:@"OnPlay"])
+        {
+            serverPlaying = YES;
+        }
+        else if ([methodParts[1] isEqualToString:@"OnPause"] ||
+                 [methodParts[1] isEqualToString:@"OnStop"])
+        {
+            serverPlaying = NO;
+        }
+        else if ([methodParts[1] isEqualToString:@"OnSpeedChanged"])
+        {
+            // TODO
+        }
+        
+        // Handle user seeking
+        else if ([methodParts[1] isEqualToString:@"OnSeek"])
+        {
+            serverPlaying = [json[@"params"][@"data"][@"player"][@"speed"] floatValue] > 0;
+            serverOffset = plexTimeToInterval(json[@"params"][@"data"][@"player"][@"time"]);
+        }
+
+    }
+    else if ([methodParts[0] isEqualToString:@"System"])
+    {
+        if ([methodParts[1] isEqualToString:@"OnQuit"])
+        {
+            serverActive = NO;
+        }
+    }
+}
+
+- (void)webSocketDidOpen:(SRWebSocket *)webSocket {
+    NSLog(@"-webSocketDidOpen");
+    serverActive = YES;
+
+    pollTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(requestPoll:) userInfo:nil repeats:YES];
+}
+- (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
+    NSLog(@"-webSocket:DidFailWithError: %@", error);
+    serverActive = NO;
+}
+- (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
+    NSLog(@"-webSocket:didCloseWithCode: %ld reason: %@ wasClean: %d", (long)code, reason, wasClean);
+    serverActive = NO;
 }
 
 @end

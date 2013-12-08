@@ -9,19 +9,25 @@
 #import <Foundation/Foundation.h>
 #import "SSInterface.h"
 #import "SSHTTPRequest.h"
+#import <SocketRocket/SRWebSocket.h>
 
-@interface SSPlexInterface : NSObject <SSInterface> {
+#define kPlexIdRequestPlayers @(2)
+#define kPlexIdRequestPoll @(3)
+#define kPlexIdRequestPlayPause @(4)
+#define kPlexIdRequestSeek @(5)
+
+@interface SSPlexInterface : NSObject <SSInterface, SRWebSocketDelegate> {
     NSString * plexHost;
     
     NSThread * bgThread;
-    NSMutableDictionary * pending;
+    SRWebSocket * websocket;
     
     BOOL serverActive;
     BOOL serverPlaying;
     NSTimeInterval serverOffset;
+    NSNumber *serverPlayerid;
+    
+    NSTimer *pollTimer;
 }
-
-- (void)startBackground;
-- (void)stopBackground;
 
 @end
