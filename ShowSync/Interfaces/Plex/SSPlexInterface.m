@@ -93,7 +93,7 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
         @"method": @"Player.Seek",
         @"params": @{
             @"playerid": serverPlayerid,
-            @"time": intervalToPlexTime(offset)
+            @"value": intervalToPlexTime(offset)
         }
     };
     [self sendWebsocket:send];
