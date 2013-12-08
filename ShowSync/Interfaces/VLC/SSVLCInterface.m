@@ -60,6 +60,7 @@
 }
 
 - (void)invalidate {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     application = nil;
 }
 
