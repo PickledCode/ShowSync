@@ -238,9 +238,13 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
 
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket {
     NSLog(@"-webSocketDidOpen");
-    serverActive = YES;
 
-    pollTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(requestPoll:) userInfo:nil repeats:YES];
+    serverActive = YES;
+    pollTimer = [NSTimer scheduledTimerWithTimeInterval:kSSInterfacePollingInterval
+                                                 target:self
+                                               selector:@selector(requestPoll:)
+                                               userInfo:nil
+                                                repeats:YES];
 }
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
     NSLog(@"-webSocket:DidFailWithError: %@", error);
