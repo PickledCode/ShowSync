@@ -17,8 +17,16 @@
 - (id)init {
     if ((self = [super init])) {
         application = [SBApplication applicationWithBundleIdentifier:@"org.videolan.vlc"];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerStateDidChange:) name:@"VLCPlayerStateDidChange" object:nil];
     }
     return self;
+}
+
+
+-(void)playerStateDidChange:(id)sender {
+    // Is this even used?
+    [self didChangeValueForKey:@"isPlaying"];
 }
 
 - (BOOL)isAvailable {
