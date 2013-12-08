@@ -25,9 +25,10 @@
 - (void)triggerStatusChanged {
     if (![[NSThread currentThread] isMainThread]) {
         [self performSelectorOnMainThread:@selector(triggerStatusChanged) withObject:nil waitUntilDone:NO];
-    } else {
-        [self.delegate interfaceStatusChanged:self];
+        return;
     }
+
+    [self.delegate interfaceStatusChanged:self];
 }
 
 + (NSString *)interfaceName {
@@ -64,8 +65,7 @@
 
 - (void)invalidate {
     NSAssert(updateTimer != nil || [self.class updateInterval] != 0, @"Invalidate called multiple times?");
-    [updateTimer invalidate];
-    updateTimer = nil;
+    [updateTimer invalidate], updateTimer = nil;
 }
 
 - (void)dealloc {

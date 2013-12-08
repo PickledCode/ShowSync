@@ -197,6 +197,7 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
         }
         else if ([json[@"id"] isEqualToNumber:kPlexIdRequestSeek])
         {
+            // TODO ... maybe?
         }
     }
     else if ([methodParts[0] isEqualToString:@"Player"])
@@ -231,6 +232,7 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
             serverActive = NO;
         }
     }
+
     [self triggerStatusChanged];
 }
 
