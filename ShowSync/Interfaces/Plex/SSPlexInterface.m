@@ -46,6 +46,10 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
     return @"Plex";
 }
 
++ (NSTimeInterval)updateInterval {
+    return kSSInterfaceEventInterval;
+}
+
 - (id)init {
     if ((self = [super init])) {
         plexHost = @"ws://127.0.0.1:9090/jsonrpc";
@@ -96,6 +100,7 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
 }
 
 -(void)invalidate {
+    [super invalidate];
     if (pollTimer) [pollTimer invalidate], pollTimer = nil;
     [websocket close];
 }
@@ -226,6 +231,7 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
             serverActive = NO;
         }
     }
+    [self triggerStatusChanged];
 }
 
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket {

@@ -10,8 +10,10 @@
 #import "SSInterface.h"
 #import "VLC.h"
 
-@interface SSVLCInterface : NSObject <SSInterface> {
+@interface SSVLCInterface : SSInterface {
     VLCApplication * application;
 }
+
+- (void)playerStateDidChange:(id)note;
 
 @end

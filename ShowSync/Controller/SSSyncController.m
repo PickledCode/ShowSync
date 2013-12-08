@@ -26,12 +26,7 @@
         // create the interface based on user application drop-down
         NSString * interfaceName = aController.window.applicationName;
         interface = [SSInterfaceFactory interfaceWithName:interfaceName];
-        
-        timer = [NSTimer scheduledTimerWithTimeInterval:0.25
-                                                 target:self
-                                               selector:@selector(sendTimestampAndPausedInfo:)
-                                               userInfo:nil
-                                                repeats:YES];
+        interface.delegate = self;
     }
     return self;
 }
@@ -59,20 +54,17 @@
             BOOL remoteWaiting = [[object objectForKey:@"waiting"] boolValue];
             if ([interface isPlaying] != [remoteStatus playing] && !remoteWaiting && !waitingForCatchup) {
                 [interface setPlaying:remoteStatus.playing];
-                [self sendTimestampAndPausedInfo:nil]; // make the refresh look instant
+                [self interfaceStatusChanged:nil]; // make the refresh look instant
             }
         }
     }
 }
 
-- (void)sendTimestampAndPausedInfo:(id)sender {
+#pragma mark - Sending Updates -
+
+- (void)interfaceStatusChanged:(id)sender {
     SSInterfaceStatus * status = [[SSInterfaceStatus alloc] initWithInterface:interface];
     sentCount++;
-    
-//    if (sentCount % 4 == 0 && status.playing == myStatus.playing) {
-//        // Because interval is 0.25 we only send pause/play on this time
-//        return;
-//    }
     if ([status isEqualToStatus:myStatus]) return;
     
     NSDictionary * dict = [status dictionaryRepresentation];
@@ -85,9 +77,9 @@
     myStatus = status;
 }
 
+
 - (void)invalidate {
-    [timer invalidate];
-    timer = nil;
+    [interface invalidate];
 }
 
 #pragma mark - Sync Methods -
@@ -99,7 +91,7 @@
     if (![interface isAvailable]) return;
     
     [interface setOffset:remoteStatus.offset];
-    [self sendTimestampAndPausedInfo:self];
+    [self interfaceStatusChanged:nil];
 }
 
 - (BOOL)isWaitingForCatchup {

@@ -14,36 +14,48 @@
     return @"iTunes";
 }
 
++ (NSTimeInterval)updateInterval {
+    return kSSInterfaceEventInterval;
+}
+
 - (id)init {
     if ((self = [super init])) {
         application = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
+        [[NSDistributedNotificationCenter defaultCenter] addObserver:self
+                                                            selector:@selector(statusUpdateEvent:)
+                                                                name:@"com.apple.iTunes.playerInfo"
+                                                              object:nil];
     }
     return self;
 }
 
--(BOOL)isAvailable {
+- (void)statusUpdateEvent:(id)sender {
+    [self triggerStatusChanged];
+}
+
+- (BOOL)isAvailable {
     if (![application isRunning]) return NO;
     // For iTunes to be functional there needs to be a track or something ready to play:
     if (![application currentTrack]) return NO;
     return YES;
 }
 
--(NSTimeInterval)offset {
+- (NSTimeInterval)offset {
     if (![self isAvailable]) return 0;
     return [application playerPosition];
 }
 
--(void)setOffset:(NSTimeInterval)offset {
+- (void)setOffset:(NSTimeInterval)offset {
     if (![self isAvailable]) return;
     [application setPlayerPosition:offset];
 }
 
--(BOOL)isPlaying {
+- (BOOL)isPlaying {
     if (![self isAvailable]) return NO;
     return application.playerState == iTunesEPlSPlaying;
 }
 
--(void)setPlaying:(BOOL)playing {
+- (void)setPlaying:(BOOL)playing {
     if (![self isAvailable]) return;
     if ([self isPlaying] == playing) return;
     
@@ -55,7 +67,11 @@
 }
 
 - (void)invalidate {
+    [super invalidate];
     application = nil;
+    [[NSDistributedNotificationCenter defaultCenter] removeObserver:self
+                                                               name:@"com.apple.iTunes.playerInfo"
+                                                             object:nil];
 }
 
 @end

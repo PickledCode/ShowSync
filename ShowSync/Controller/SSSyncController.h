@@ -12,14 +12,13 @@
 
 @class SSController;
 
-@interface SSSyncController : NSObject {
+@interface SSSyncController : NSObject <SSInterfaceDelegate> {
     NSUInteger sentCount;
     
     __weak SSController * controller;
     BOOL waitingForCatchup;
     
-    NSTimer * timer;
-    id<SSInterface> interface;
+    SSInterface * interface;
     
     SSInterfaceStatus * myStatus;
     SSInterfaceStatus * remoteStatus;
@@ -28,11 +27,9 @@
 - (id)initWithController:(SSController *)aController;
 - (void)handleObject:(NSDictionary *)object;
 
-- (void)sendTimestampAndPausedInfo:(id)sender;
 - (void)invalidate;
 
 - (void)takeTimeFromClient;
-
 - (BOOL)isWaitingForCatchup;
 - (void)waitForCatchup;
 - (void)cancelWaitForCatchup;

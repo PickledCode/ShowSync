@@ -10,7 +10,7 @@
 #import "QuickTimePlayer.h"
 #import "SSInterface.h"
 
-@interface SSQuickTimeInterface : NSObject <SSInterface> {
+@interface SSQuickTimeInterface : SSInterface {
     QuickTimePlayerApplication * application;
 }
 

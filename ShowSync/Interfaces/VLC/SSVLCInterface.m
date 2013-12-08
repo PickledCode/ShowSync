@@ -14,9 +14,17 @@
     return @"VLC";
 }
 
++ (NSTimeInterval)updateInterval {
+    return kSSInterfaceEventInterval;
+}
+
 - (id)init {
     if ((self = [super init])) {
         application = [SBApplication applicationWithBundleIdentifier:@"org.videolan.vlc"];
+        [[NSDistributedNotificationCenter defaultCenter] addObserver:self
+                                                            selector:@selector(playerStateDidChange:)
+                                                                name:@"VLCPlayerStateDidChange"
+                                                              object:nil];
     }
     return self;
 }
@@ -52,7 +60,15 @@
 }
 
 - (void)invalidate {
+    [super invalidate];
     application = nil;
+    [[NSDistributedNotificationCenter defaultCenter] removeObserver:self
+                                                               name:@"VLCPlayerStateDidChange"
+                                                             object:nil];
+}
+
+- (void)playerStateDidChange:(id)note {
+    [self triggerStatusChanged];
 }
 
 @end

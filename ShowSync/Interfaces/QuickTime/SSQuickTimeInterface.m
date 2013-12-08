@@ -57,6 +57,7 @@
 }
 
 - (void)invalidate {
+    [super invalidate];
     application = nil;
 }
 

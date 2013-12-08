@@ -30,7 +30,7 @@
     return self;
 }
 
-- (id)initWithInterface:(id<SSInterface>)interface {
+- (id)initWithInterface:(SSInterface *)interface {
     if ((self = [super init])) {
         if ([interface isAvailable]) {
             available = YES;

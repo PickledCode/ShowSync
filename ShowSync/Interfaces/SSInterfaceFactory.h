@@ -16,6 +16,6 @@
 
 + (NSArray *)interfaceClasses;
 + (NSArray *)interfaceNames;
-+ (id<SSInterface>)interfaceWithName:(NSString *)name;
++ (SSInterface *)interfaceWithName:(NSString *)name;
 
 @end

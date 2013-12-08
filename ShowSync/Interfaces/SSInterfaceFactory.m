@@ -22,7 +22,7 @@
     return [names copy]; // copy it to make it immutable
 }
 
-+ (id<SSInterface>)interfaceWithName:(NSString *)name {
++ (SSInterface *)interfaceWithName:(NSString *)name {
     Class class = Nil;
     for (Class aClass in [self interfaceClasses]) {
         if ([[aClass interfaceName] isEqualToString:name]) {

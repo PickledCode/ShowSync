@@ -16,7 +16,7 @@
 #define kPlexIdRequestPlayPause @(4)
 #define kPlexIdRequestSeek @(5)
 
-@interface SSPlexInterface : NSObject <SSInterface, SRWebSocketDelegate> {
+@interface SSPlexInterface : SSInterface <SRWebSocketDelegate> {
     NSString * plexHost;
     
     NSThread * bgThread;

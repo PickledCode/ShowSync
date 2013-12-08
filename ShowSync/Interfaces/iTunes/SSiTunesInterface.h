@@ -10,8 +10,10 @@
 #import "iTunes.h"
 #import "SSInterface.h"
 
-@interface SSiTunesInterface : NSObject <SSInterface> {
-    iTunesApplication *application;
+@interface SSiTunesInterface : SSInterface {
+    iTunesApplication * application;
 }
+
+- (void)statusUpdateEvent:(id)sender;
 
 @end
