@@ -156,7 +156,7 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
     }
     
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:msgData options:0 error:nil];
-    NSLog(@"JSON: %@", json);
+//    NSLog(@"JSON: %@", json);
     
     NSString *method = json[@"method"];
     NSArray *methodParts = [method componentsSeparatedByString:@"."];
