@@ -127,7 +127,7 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
         return;
     }
     
-    NSLog(@"-requestPoll GetProperties (%@)", serverPlayerid);
+//    NSLog(@"-requestPoll GetProperties (%@)", serverPlayerid);
     
     NSDictionary *json = @{
         @"id": kPlexIdRequestPoll,
@@ -144,7 +144,7 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message {
-    NSLog(@"-webSocket:didReceiveMessage: (see below)");
+//    NSLog(@"-webSocket:didReceiveMessage: (see below)");
     
     // message will either be an NSString if the server is using text
     // or NSData if the server is using binary.
