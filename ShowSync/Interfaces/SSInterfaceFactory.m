@@ -11,7 +11,12 @@
 @implementation SSInterfaceFactory
 
 + (NSArray *)interfaceClasses {
-    return @[[SSVLCInterface class], [SSQuickTimeInterface class], [SSPlexInterface class], [SSiTunesInterface class]];
+    return @[
+        [SSVLCInterface class],
+        [SSQuickTimeInterface class],
+        [SSPlexHomeTheaterInterface class],
+        [SSiTunesInterface class]
+    ];
 }
 
 + (NSArray *)interfaceNames {

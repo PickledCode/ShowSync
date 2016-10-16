@@ -11,12 +11,12 @@
 #import "SSHTTPRequest.h"
 #import <SocketRocket/SRWebSocket.h>
 
-#define kPlexIdRequestPlayers @(2)
-#define kPlexIdRequestPoll @(3)
-#define kPlexIdRequestPlayPause @(4)
-#define kPlexIdRequestSeek @(5)
+#define kPlexHomeTheaterIdRequestPlayers @(2)
+#define kPlexHomeTheaterIdRequestPoll @(3)
+#define kPlexHomeTheaterIdRequestPlayPause @(4)
+#define kPlexHomeTheaterIdRequestSeek @(5)
 
-@interface SSPlexInterface : SSInterface <SRWebSocketDelegate> {
+@interface SSPlexHomeTheaterInterface : SSInterface <SRWebSocketDelegate> {
     NSString * plexHost;
     
     NSThread * bgThread;

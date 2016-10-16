@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 Alex Nichol. All rights reserved.
 //
 
-#import "SSPlexInterface.h"
+#import "SSPlexHomeTheaterInterface.h"
 
-@interface SSPlexInterface (Private)
+@interface SSPlexHomeTheaterInterface (Private)
 
 - (void)pollServer;
 - (void)doPendingSets;
@@ -40,10 +40,10 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
 }
 
 
-@implementation SSPlexInterface
+@implementation SSPlexHomeTheaterInterface
 
 + (NSString *)interfaceName {
-    return @"Plex";
+    return @"Plex Home Theater";
 }
 
 + (NSTimeInterval)updateInterval {
@@ -74,7 +74,7 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
     if (playing == serverPlaying) return;
     
     NSDictionary *send = @{
-        @"id": kPlexIdRequestPlayPause,
+        @"id": kPlexHomeTheaterIdRequestPlayPause,
         @"method": @"Player.PlayPause",
         @"params": @{
             @"playerid": serverPlayerid
@@ -89,7 +89,7 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
 
 - (void)setOffset:(NSTimeInterval)offset {
     NSDictionary *send = @{
-        @"id": kPlexIdRequestSeek,
+        @"id": kPlexHomeTheaterIdRequestSeek,
         @"method": @"Player.Seek",
         @"params": @{
             @"playerid": serverPlayerid,
@@ -120,17 +120,17 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
         NSLog(@"-requestPoll GetActivePlayers");
         
         NSDictionary *json = @{
-            @"id": kPlexIdRequestPlayers,
+            @"id": kPlexHomeTheaterIdRequestPlayers,
             @"method": @"Player.GetActivePlayers"
         };
         [self sendWebsocket:json];
         return;
     }
-    
+
 //    NSLog(@"-requestPoll GetProperties (%@)", serverPlayerid);
     
     NSDictionary *json = @{
-        @"id": kPlexIdRequestPoll,
+        @"id": kPlexHomeTheaterIdRequestPoll,
         @"method": @"Player.GetProperties",
         @"params": @{
             @"playerid": serverPlayerid,
@@ -176,7 +176,7 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
     
     if (json[@"id"] && json[@"result"])
     {
-        if ([json[@"id"] isEqualToNumber:kPlexIdRequestPoll])
+        if ([json[@"id"] isEqualToNumber:kPlexHomeTheaterIdRequestPoll])
         {
             if (json[@"result"][@"time"])
             {
@@ -187,15 +187,15 @@ NSDictionary * intervalToPlexTime(NSTimeInterval foo) {
                 serverPlaying = [json[@"result"][@"speed"] floatValue] > 0;
             }
         }
-        else if ([json[@"id"] isEqualToNumber:kPlexIdRequestPlayers] && [json[@"result"] count])
+        else if ([json[@"id"] isEqualToNumber:kPlexHomeTheaterIdRequestPlayers] && [json[@"result"] count])
         {
             serverPlayerid = json[@"result"][0][@"playerid"];
         }
-        else if ([json[@"id"] isEqualToNumber:kPlexIdRequestPlayPause])
+        else if ([json[@"id"] isEqualToNumber:kPlexHomeTheaterIdRequestPlayPause])
         {
             serverPlaying = [json[@"result"][@"speed"] floatValue] > 0;
         }
-        else if ([json[@"id"] isEqualToNumber:kPlexIdRequestSeek])
+        else if ([json[@"id"] isEqualToNumber:kPlexHomeTheaterIdRequestSeek])
         {
             // TODO ... maybe?
         }

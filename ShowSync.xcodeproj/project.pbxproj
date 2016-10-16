@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2BAA13441DB31869005F9CED /* SocketRocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAA13431DB31869005F9CED /* SocketRocket.framework */; };
+		2BAA13451DB31869005F9CED /* SocketRocket.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAA13431DB31869005F9CED /* SocketRocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2BE83C5C17CD57F2007DBCE4 /* SSiTunesInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE83C5B17CD57F2007DBCE4 /* SSiTunesInterface.m */; };
-		4EF81DC5E6B94DF2A3FA7BB9 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56B784B0AEA346668D7CD186 /* libPods.a */; };
 		FA0E6A8C15F2D010009C1423 /* SSPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0E6A8B15F2D010009C1423 /* SSPreferencesController.m */; };
 		FA0E6A9115F2D258009C1423 /* SSHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0E6A9015F2D258009C1423 /* SSHTTPRequest.m */; };
 		FA0E6A9415F2D2BE009C1423 /* SSPreferencesWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0E6A9315F2D2BE009C1423 /* SSPreferencesWindow.m */; };
@@ -35,16 +36,28 @@
 		FA3DF58115EA9A0E003A5271 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA3DF57F15EA9A0E003A5271 /* MainMenu.xib */; };
 		FA6BE5F915EF0950008C4F1D /* SSInterfaceStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = FA6BE5F815EF0950008C4F1D /* SSInterfaceStatus.m */; };
 		FAA5DC9E15EEE8FC002CC804 /* SSSyncController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA5DC9D15EEE8FC002CC804 /* SSSyncController.m */; };
-		FAB6775615F02A7700C80B7B /* SSPlexInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB6775515F02A7700C80B7B /* SSPlexInterface.m */; };
+		FAB6775615F02A7700C80B7B /* SSPlexHomeTheaterInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB6775515F02A7700C80B7B /* SSPlexHomeTheaterInterface.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		2BAA13461DB31869005F9CED /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2BAA13451DB31869005F9CED /* SocketRocket.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		2BAA13431DB31869005F9CED /* SocketRocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SocketRocket.framework; path = Carthage/Build/Mac/SocketRocket.framework; sourceTree = "<group>"; };
 		2BE83C5A17CD57F2007DBCE4 /* SSiTunesInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSiTunesInterface.h; path = iTunes/SSiTunesInterface.h; sourceTree = "<group>"; };
 		2BE83C5B17CD57F2007DBCE4 /* SSiTunesInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSiTunesInterface.m; path = iTunes/SSiTunesInterface.m; sourceTree = "<group>"; };
 		2BE83C5D17CD5866007DBCE4 /* iTunes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = iTunes.h; path = iTunes/iTunes.h; sourceTree = "<group>"; };
-		56B784B0AEA346668D7CD186 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		758D31D932DB82AD4534F2C2 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		BDD7D977EB0E089223A84F0B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FA0E6A8A15F2D010009C1423 /* SSPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPreferencesController.h; sourceTree = "<group>"; };
 		FA0E6A8B15F2D010009C1423 /* SSPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSPreferencesController.m; sourceTree = "<group>"; };
 		FA0E6A8F15F2D258009C1423 /* SSHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSHTTPRequest.h; sourceTree = "<group>"; };
@@ -100,8 +113,8 @@
 		FA6BE5F815EF0950008C4F1D /* SSInterfaceStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSInterfaceStatus.m; sourceTree = "<group>"; };
 		FAA5DC9C15EEE8FC002CC804 /* SSSyncController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSSyncController.h; sourceTree = "<group>"; };
 		FAA5DC9D15EEE8FC002CC804 /* SSSyncController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSSyncController.m; sourceTree = "<group>"; };
-		FAB6775415F02A7700C80B7B /* SSPlexInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPlexInterface.h; sourceTree = "<group>"; };
-		FAB6775515F02A7700C80B7B /* SSPlexInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSPlexInterface.m; sourceTree = "<group>"; };
+		FAB6775415F02A7700C80B7B /* SSPlexHomeTheaterInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPlexHomeTheaterInterface.h; sourceTree = "<group>"; };
+		FAB6775515F02A7700C80B7B /* SSPlexHomeTheaterInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSPlexHomeTheaterInterface.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,7 +124,7 @@
 			files = (
 				FA10C56B15ED62600053EED1 /* ScriptingBridge.framework in Frameworks */,
 				FA3DF56B15EA9A0E003A5271 /* Cocoa.framework in Frameworks */,
-				4EF81DC5E6B94DF2A3FA7BB9 /* libPods.a in Frameworks */,
+				2BAA13441DB31869005F9CED /* SocketRocket.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,15 +139,6 @@
 				2BE83C5B17CD57F2007DBCE4 /* SSiTunesInterface.m */,
 			);
 			name = iTunes;
-			sourceTree = "<group>";
-		};
-		DAD5C6B842F1D7BB42AAB200 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				758D31D932DB82AD4534F2C2 /* Pods.debug.xcconfig */,
-				BDD7D977EB0E089223A84F0B /* Pods.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		FA0E6A8E15F2D258009C1423 /* HTTP */ = {
@@ -205,7 +209,7 @@
 		FA10C56415ED5E750053EED1 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
-				FAB6775215F02A6100C80B7B /* Plex */,
+				FAB6775215F02A6100C80B7B /* Plex Home Theater */,
 				FA10C56C15ED62C80053EED1 /* VLC */,
 				FA10C56D15ED62C80053EED1 /* QuickTime */,
 				2BE83C5917CD575A007DBCE4 /* iTunes */,
@@ -246,7 +250,6 @@
 				FA3DF57015EA9A0E003A5271 /* ShowSync */,
 				FA3DF56915EA9A0E003A5271 /* Frameworks */,
 				FA3DF56715EA9A0E003A5271 /* Products */,
-				DAD5C6B842F1D7BB42AAB200 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -264,7 +267,7 @@
 				FA3DF56A15EA9A0E003A5271 /* Cocoa.framework */,
 				FA10C56A15ED62600053EED1 /* ScriptingBridge.framework */,
 				FA3DF56C15EA9A0E003A5271 /* Other Frameworks */,
-				56B784B0AEA346668D7CD186 /* libPods.a */,
+				2BAA13431DB31869005F9CED /* SocketRocket.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -306,12 +309,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		FAB6775215F02A6100C80B7B /* Plex */ = {
+		FAB6775215F02A6100C80B7B /* Plex Home Theater */ = {
 			isa = PBXGroup;
 			children = (
-				FAB6775415F02A7700C80B7B /* SSPlexInterface.h */,
-				FAB6775515F02A7700C80B7B /* SSPlexInterface.m */,
+				FAB6775415F02A7700C80B7B /* SSPlexHomeTheaterInterface.h */,
+				FAB6775515F02A7700C80B7B /* SSPlexHomeTheaterInterface.m */,
 			);
+			name = "Plex Home Theater";
 			path = Plex;
 			sourceTree = "<group>";
 		};
@@ -322,11 +326,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FA3DF58415EA9A0E003A5271 /* Build configuration list for PBXNativeTarget "ShowSync" */;
 			buildPhases = (
-				A3A586D3DD054B5BBE787299 /* Check Pods Manifest.lock */,
 				FA3DF56215EA9A0E003A5271 /* Sources */,
 				FA3DF56315EA9A0E003A5271 /* Frameworks */,
 				FA3DF56415EA9A0E003A5271 /* Resources */,
-				E59A6F3140E345BA9531532E /* Copy Pods Resources */,
+				2BAA13461DB31869005F9CED /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -344,8 +347,8 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = SS;
-				LastUpgradeCheck = 0500;
-				ORGANIZATIONNAME = "Alex Nichol";
+				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = PickledCode;
 			};
 			buildConfigurationList = FA3DF56015EA9A0E003A5271 /* Build configuration list for PBXProject "ShowSync" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -377,39 +380,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		A3A586D3DD054B5BBE787299 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		E59A6F3140E345BA9531532E /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		FA3DF56215EA9A0E003A5271 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -433,7 +403,7 @@
 				FA10C58515ED8E780053EED1 /* SSMainView.m in Sources */,
 				FAA5DC9E15EEE8FC002CC804 /* SSSyncController.m in Sources */,
 				FA6BE5F915EF0950008C4F1D /* SSInterfaceStatus.m in Sources */,
-				FAB6775615F02A7700C80B7B /* SSPlexInterface.m in Sources */,
+				FAB6775615F02A7700C80B7B /* SSPlexHomeTheaterInterface.m in Sources */,
 				FA0E6A8C15F2D010009C1423 /* SSPreferencesController.m in Sources */,
 				FA0E6A9115F2D258009C1423 /* SSHTTPRequest.m in Sources */,
 				FA0E6A9415F2D2BE009C1423 /* SSPreferencesWindow.m in Sources */,
@@ -477,11 +447,22 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -490,7 +471,9 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
@@ -504,14 +487,26 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx;
@@ -520,13 +515,17 @@
 		};
 		FA3DF58515EA9A0E003A5271 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 758D31D932DB82AD4534F2C2 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShowSync/ShowSync-Prefix.pch";
 				INFOPLIST_FILE = "ShowSync/ShowSync-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pickledcode.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -534,13 +533,17 @@
 		};
 		FA3DF58615EA9A0E003A5271 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BDD7D977EB0E089223A84F0B /* Pods.release.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShowSync/ShowSync-Prefix.pch";
 				INFOPLIST_FILE = "ShowSync/ShowSync-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pickledcode.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

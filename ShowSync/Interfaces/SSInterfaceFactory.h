@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "SSVLCInterface.h"
 #import "SSQuickTimeInterface.h"
-#import "SSPlexInterface.h"
+#import "SSPlexHomeTheaterInterface.h"
 #import "SSiTunesInterface.h"
 
 @interface SSInterfaceFactory : NSObject
