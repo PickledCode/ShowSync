@@ -14,6 +14,7 @@
     return @[
         [SSVLCInterface class],
         [SSQuickTimeInterface class],
+        [SSPlexMediaPlayerInterface class],
         [SSPlexHomeTheaterInterface class],
         [SSiTunesInterface class]
     ];

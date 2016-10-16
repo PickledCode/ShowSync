@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2BAA13441DB31869005F9CED /* SocketRocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAA13431DB31869005F9CED /* SocketRocket.framework */; };
 		2BAA13451DB31869005F9CED /* SocketRocket.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAA13431DB31869005F9CED /* SocketRocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2BE6EA4A1DB31D6600CD49F0 /* SSPlexMediaPlayerInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE6EA491DB31D6600CD49F0 /* SSPlexMediaPlayerInterface.m */; };
 		2BE83C5C17CD57F2007DBCE4 /* SSiTunesInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BE83C5B17CD57F2007DBCE4 /* SSiTunesInterface.m */; };
 		FA0E6A8C15F2D010009C1423 /* SSPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0E6A8B15F2D010009C1423 /* SSPreferencesController.m */; };
 		FA0E6A9115F2D258009C1423 /* SSHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0E6A9015F2D258009C1423 /* SSHTTPRequest.m */; };
@@ -55,6 +56,8 @@
 
 /* Begin PBXFileReference section */
 		2BAA13431DB31869005F9CED /* SocketRocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SocketRocket.framework; path = Carthage/Build/Mac/SocketRocket.framework; sourceTree = "<group>"; };
+		2BE6EA481DB31D6600CD49F0 /* SSPlexMediaPlayerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSPlexMediaPlayerInterface.h; path = Plex/SSPlexMediaPlayerInterface.h; sourceTree = "<group>"; };
+		2BE6EA491DB31D6600CD49F0 /* SSPlexMediaPlayerInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSPlexMediaPlayerInterface.m; path = Plex/SSPlexMediaPlayerInterface.m; sourceTree = "<group>"; };
 		2BE83C5A17CD57F2007DBCE4 /* SSiTunesInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSiTunesInterface.h; path = iTunes/SSiTunesInterface.h; sourceTree = "<group>"; };
 		2BE83C5B17CD57F2007DBCE4 /* SSiTunesInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSiTunesInterface.m; path = iTunes/SSiTunesInterface.m; sourceTree = "<group>"; };
 		2BE83C5D17CD5866007DBCE4 /* iTunes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = iTunes.h; path = iTunes/iTunes.h; sourceTree = "<group>"; };
@@ -131,6 +134,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2BE6EA4B1DB31D6C00CD49F0 /* Plex Media Player */ = {
+			isa = PBXGroup;
+			children = (
+				2BE6EA481DB31D6600CD49F0 /* SSPlexMediaPlayerInterface.h */,
+				2BE6EA491DB31D6600CD49F0 /* SSPlexMediaPlayerInterface.m */,
+			);
+			name = "Plex Media Player";
+			sourceTree = "<group>";
+		};
 		2BE83C5917CD575A007DBCE4 /* iTunes */ = {
 			isa = PBXGroup;
 			children = (
@@ -210,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				FAB6775215F02A6100C80B7B /* Plex Home Theater */,
+				2BE6EA4B1DB31D6C00CD49F0 /* Plex Media Player */,
 				FA10C56C15ED62C80053EED1 /* VLC */,
 				FA10C56D15ED62C80053EED1 /* QuickTime */,
 				2BE83C5917CD575A007DBCE4 /* iTunes */,
@@ -405,6 +418,7 @@
 				FA6BE5F915EF0950008C4F1D /* SSInterfaceStatus.m in Sources */,
 				FAB6775615F02A7700C80B7B /* SSPlexHomeTheaterInterface.m in Sources */,
 				FA0E6A8C15F2D010009C1423 /* SSPreferencesController.m in Sources */,
+				2BE6EA4A1DB31D6600CD49F0 /* SSPlexMediaPlayerInterface.m in Sources */,
 				FA0E6A9115F2D258009C1423 /* SSHTTPRequest.m in Sources */,
 				FA0E6A9415F2D2BE009C1423 /* SSPreferencesWindow.m in Sources */,
 				2BE83C5C17CD57F2007DBCE4 /* SSiTunesInterface.m in Sources */,

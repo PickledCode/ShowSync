@@ -19,7 +19,6 @@
 @interface SSPlexHomeTheaterInterface : SSInterface <SRWebSocketDelegate> {
     NSString * plexHost;
     
-    NSThread * bgThread;
     SRWebSocket * websocket;
     
     BOOL serverActive;

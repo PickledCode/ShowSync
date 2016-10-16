@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "SSVLCInterface.h"
 #import "SSQuickTimeInterface.h"
+#import "SSPlexMediaPlayerInterface.h"
 #import "SSPlexHomeTheaterInterface.h"
 #import "SSiTunesInterface.h"
 
